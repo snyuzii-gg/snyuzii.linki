@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@snyuzii</title>
   <style>
+    @keyframes rgbText {
+      0% { color: red; text-shadow: 0 0 10px red; }
+      25% { color: yellow; text-shadow: 0 0 10px yellow; }
+      50% { color: lime; text-shadow: 0 0 10px lime; }
+      75% { color: cyan; text-shadow: 0 0 10px cyan; }
+      100% { color: red; text-shadow: 0 0 10px red; }
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -26,9 +34,9 @@
 
     .hero h1 {
       font-size: 3rem;
-      background: linear-gradient(to right, #ffffff, #00ffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      text-transform: uppercase;
+      animation: rgbText 5s infinite linear;
     }
 
     .button-grid {
@@ -36,6 +44,7 @@
       gap: 20px;
       width: 100%;
       max-width: 400px;
+      margin-bottom: 60px;
     }
 
     .button-grid a {
@@ -51,6 +60,7 @@
       font-weight: 600;
       font-size: 1.1rem;
       transition: all 0.3s;
+      transform-style: preserve-3d;
     }
 
     .button-grid a:hover {
@@ -59,7 +69,6 @@
     }
 
     .section {
-      margin-top: 60px;
       width: 100%;
       max-width: 1000px;
       display: flex;
@@ -69,58 +78,70 @@
 
     .card {
       background: rgba(27, 27, 27, 0.9);
-      border: 1px solid #333;
       border-radius: 16px;
       padding: 24px;
       color: #eee;
       display: flex;
-      flex-direction: row;
       justify-content: space-between;
       align-items: center;
       gap: 24px;
       flex-wrap: wrap;
       transform-style: preserve-3d;
       transition: transform 0.1s;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.8);
+      border: 1px solid #fff;
     }
 
     .card .left {
-      flex: 1;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      gap: 16px;
     }
 
-    .card .left h3 {
-      color: #ffffff;
-      margin: 0;
-      font-size: 1.8rem;
-    }
-
-    .card .left p {
-      margin: 0;
-      font-size: 0.95rem;
-    }
-
-    .card .logo {
+    .card .left .logo {
       width: 64px;
       height: 64px;
       object-fit: contain;
     }
 
+    .card .left .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card .left .info h3 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: #fff;
+    }
+
     .card .center {
-      background: #000;
-      border-radius: 12px;
-      padding: 10px 20px;
-      font-weight: bold;
-      font-size: 1.1rem;
       text-align: center;
+      flex: 1;
+    }
+
+    .card .center .tagline {
+      margin-bottom: 12px;
+      padding: 8px 16px;
+      background: #000;
+      border-radius: 8px;
+      font-weight: bold;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card .center p {
+      margin: 6px 0;
+      font-size: 0.95rem;
     }
 
     .card .right {
       display: flex;
       flex-direction: column;
-      gap: 10px;
       align-items: flex-end;
+      gap: 10px;
     }
 
     .copy-code {
@@ -130,7 +151,6 @@
       border-radius: 10px;
       color: #fff;
       font-weight: bold;
-      text-align: center;
     }
 
     .cta-button {
@@ -140,7 +160,6 @@
       color: #fff;
       padding: 10px 20px;
       font-weight: bold;
-      text-align: center;
       text-decoration: none;
       transition: background 0.3s;
     }
@@ -159,49 +178,51 @@
   </style>
   <script>
     document.addEventListener('mousemove', e => {
-      document.querySelectorAll('.card').forEach(card => {
-        const rect = card.getBoundingClientRect();
+      document.querySelectorAll('.card, .button-grid a').forEach(el => {
+        const rect = el.getBoundingClientRect();
         const dx = e.clientX - (rect.left + rect.width / 2);
         const dy = e.clientY - (rect.top + rect.height / 2);
-        const tiltX = dy / rect.height * 15;
-        const tiltY = dx / rect.width * -15;
-        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        const tiltX = dy / rect.height * 5;
+        const tiltY = dx / rect.width * -5;
+        el.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       });
     });
 
     document.addEventListener('mouseleave', () => {
-      document.querySelectorAll('.card').forEach(card => {
-        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      document.querySelectorAll('.card, .button-grid a').forEach(el => {
+        el.style.transform = 'rotateX(0deg) rotateY(0deg)';
       });
     });
   </script>
 </head>
 <body>
-  <!-- Zawartość strony -->
-</body>
-</html>
-
-<body>
   <div class="hero">
-    <h1>@snyuzii</h1>
+    <h1>SNYUZII</h1>
   </div>
+
 
   <div class="button-grid">
     <a href="https://discord.gg/" target="_blank">Discord</a>
     <a href="https://instagram.com/" target="_blank">Instagram</a>
     <a href="https://github.com/" target="_blank">GitHub</a>
     <a href="https://youtube.com/" target="_blank">YouTube</a>
+    <a href="https://twitter.com/" target="_blank">Twitter</a>
+    <a href="https://twitch.tv/" target="_blank">Twitch</a>
   </div>
 
   <div class="section">
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/EG6PCi3.png" alt="RAPIDSKINS logo">
-        <h3>RAPIDSKINS.com</h3>
-        <p>Sprzedawaj skiny z CS2 i wypłacaj PayPalem, przelewem lub kryptowalutami (BTC, ETH, LTC, USDT).</p>
+        <div class="info">
+          <h3>RAPIDSKINS.com</h3>
+        </div>
+      </div>
+      <div class="center">
+        <div class="tagline">+1% DO SPRZEDAŻY</div>
+        <p>Sprzedawaj skiny z CS2 i wypłacaj PayPalem, przelewem lub kryptowalutami.</p>
         <p>Użyj kodu <strong>YUKINO</strong> i otrzymaj 1% bonusu do wartości każdej sprzedaży.</p>
       </div>
-      <div class="center">+1% DO SPRZEDAŻY</div>
       <div class="right">
         <div class="copy-code">YUKINO</div>
         <a class="cta-button" href="https://rapidskins.com/a/yukino" target="_blank">Sprzedaj skiny →</a>
@@ -211,26 +232,33 @@
     <div class="card">
       <div class="left">
         <img class="logo" src="https://csgofast.com/favicon.ico" alt="CSGOFAST logo">
-        <h3>CSGOFAST.com</h3>
-        <p>Graj w ruletkę, upgrader, crash i inne tryby za skiny z CS2.</p>
-        <p>Użyj kodu <strong>SNYUZII</strong> i zgarnij darmowe monety i skrzynke na start.</p>
+        <div class="info">
+          <h3>CSGOFAST.com</h3>
+        </div>
       </div>
-      <div class="center">FREE COINS</div>
+      <div class="center">
+        <div class="tagline">FREE COINS</div>
+        <p>Graj w ruletkę, upgrader, crash i inne tryby za skiny z CS2.</p>
+        <p>Użyj kodu <strong>SNYUZII</strong> i zgarnij darmowe monety i skrzynkę na start.</p>
+      </div>
       <div class="right">
         <div class="copy-code">SNYUZII</div>
         <a class="cta-button" href="https://csgofast.com?ref=SNYUZII" target="_blank">Zagraj →</a>
       </div>
     </div>
 
-
     <div class="card">
       <div class="left">
         <img class="logo" src="https://www.instant-gaming.com/favicon.ico" alt="Instant Gaming logo">
-        <h3>INSTANTGAMING.com</h3>
+        <div class="info">
+          <h3>INSTANTGAMING.com</h3>
+        </div>
+      </div>
+      <div class="center">
+        <div class="tagline">TANIE GRY</div>
         <p>Kupuj gry na PC, Steam, Xbox i PS4 – często nawet 70% taniej.</p>
         <p>Jeśli szukasz gry, dodaj na końcu linku <code>?igr=sniezny</code>. To wspiera mnie jako twórcę.</p>
       </div>
-      <div class="center">TANIE GRY</div>
       <div class="right">
         <div class="copy-code">?igr=sniezny</div>
         <a class="cta-button" href="https://www.instant-gaming.com/?igr=sniezny" target="_blank">Kup teraz →</a>
@@ -239,7 +267,7 @@
   </div>
 
   <footer>
-    Powered by SNYUZII
+    Powered by SNYUZII.GG
   </footer>
 </body>
 </html>
