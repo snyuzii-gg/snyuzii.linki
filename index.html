@@ -6,11 +6,17 @@
   <title>@snyuzii</title>
   <style>
     @keyframes rgbText {
-      0% { color: red; text-shadow: 0 0 10px red; }
-      25% { color: yellow; text-shadow: 0 0 10px yellow; }
-      50% { color: lime; text-shadow: 0 0 10px lime; }
-      75% { color: cyan; text-shadow: 0 0 10px cyan; }
-      100% { color: red; text-shadow: 0 0 10px red; }
+      0% { color: red; text-shadow: 0 0 10px red, 0 0 20px red; }
+      25% { color: yellow; text-shadow: 0 0 10px yellow, 0 0 20px yellow; }
+      50% { color: lime; text-shadow: 0 0 10px lime, 0 0 20px lime; }
+      75% { color: cyan; text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
+      100% { color: red; text-shadow: 0 0 10px red, 0 0 20px red; }
+    }
+
+    @keyframes scan {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: 100%; }
     }
 
     body {
@@ -33,173 +39,40 @@
     }
 
     .hero h1 {
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: bold;
       text-transform: uppercase;
       animation: rgbText 5s infinite linear;
     }
 
-    .button-grid {
-      display: grid;
-      gap: 20px;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 60px;
-    }
-
-    .button-grid a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      background-color: rgba(30, 30, 30, 0.85);
-      border: 1px solid #333;
-      border-radius: 12px;
-      color: #00ffff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: all 0.3s;
-      transform-style: preserve-3d;
-    }
-
-    .button-grid a:hover {
-      background-color: rgba(43, 43, 43, 0.95);
-      transform: scale(1.03);
-    }
-
-    .section {
-      width: 100%;
-      max-width: 1000px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .card {
-      background: rgba(27, 27, 27, 0.9);
-      border-radius: 16px;
-      padding: 24px;
-      color: #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      transform-style: preserve-3d;
-      transition: transform 0.1s;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.8);
-      border: 1px solid #fff;
-    }
-
-    .card .left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .card .left .logo {
-      width: 64px;
-      height: 64px;
-      object-fit: contain;
-    }
-
-    .card .left .info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .card .left .info h3 {
-      margin: 0;
-      font-size: 1.6rem;
-      color: #fff;
-    }
-
-    .card .center {
-      text-align: center;
-      flex: 1;
-    }
-
-    .card .center .tagline {
-      margin-bottom: 12px;
-      padding: 8px 16px;
-      background: #000;
-      border-radius: 8px;
-      font-weight: bold;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .card .center p {
-      margin: 6px 0;
-      font-size: 0.95rem;
-    }
-
-    .card .right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-    }
-
-    .copy-code {
-      padding: 10px 20px;
-      background: transparent;
-      border: 2px dashed #00ffff;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .cta-button {
-      background: transparent;
-      border: 2px solid #00ffff;
-      border-radius: 10px;
-      color: #fff;
-      padding: 10px 20px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-
-    .cta-button:hover {
-      background: #00ffff;
-      color: #000;
-    }
-
     footer {
       margin-top: 80px;
       font-size: 0.9rem;
-      color: #ccc;
+      color: #fff;
       text-shadow: 0 0 3px #000;
+      position: relative;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    footer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+      animation: scan 3s infinite;
     }
   </style>
-  <script>
-    document.addEventListener('mousemove', e => {
-      document.querySelectorAll('.card, .button-grid a').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const dx = e.clientX - (rect.left + rect.width / 2);
-        const dy = e.clientY - (rect.top + rect.height / 2);
-        const tiltX = dy / rect.height * 5;
-        const tiltY = dx / rect.width * -5;
-        el.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-      });
-    });
-
-    document.addEventListener('mouseleave', () => {
-      document.querySelectorAll('.card, .button-grid a').forEach(el => {
-        el.style.transform = 'rotateX(0deg) rotateY(0deg)';
-      });
-    });
-  </script>
 </head>
 <body>
   <div class="hero">
     <h1>SNYUZII</h1>
   </div>
-
 
   <div class="button-grid">
     <a href="https://discord.gg/" target="_blank">Discord</a>
