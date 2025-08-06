@@ -82,17 +82,26 @@
 
     .card .left {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .card .left h3 {
-      color: #ff4444;
-      margin: 0 0 12px 0;
+      color: #ffffff;
+      margin: 0;
       font-size: 1.8rem;
     }
 
     .card .left p {
-      margin: 6px 0;
+      margin: 0;
       font-size: 0.95rem;
+    }
+
+    .card .logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
     }
 
     .card .center {
@@ -108,12 +117,13 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      align-items: flex-end;
     }
 
     .copy-code {
       padding: 10px 20px;
       background: transparent;
-      border: 2px dashed #ff4444;
+      border: 2px dashed #00ffff;
       border-radius: 10px;
       color: #fff;
       font-weight: bold;
@@ -122,7 +132,7 @@
 
     .cta-button {
       background: transparent;
-      border: 2px solid #fff;
+      border: 2px solid #00ffff;
       border-radius: 10px;
       color: #fff;
       padding: 10px 20px;
@@ -133,7 +143,7 @@
     }
 
     .cta-button:hover {
-      background: #fff;
+      background: #00ffff;
       color: #000;
     }
 
@@ -160,39 +170,42 @@
   <div class="section">
     <div class="card">
       <div class="left">
+        <img class="logo" src="https://rapidskins.com/favicon.ico" alt="RAPIDSKINS logo">
         <h3>RAPIDSKINS.com</h3>
-        <p>Sprzedawaj skiny z CS2 natychmiastowo i wypłacaj przelewem, Blikiem lub krypto.</p>
-        <p>Użyj kodu <strong>SNIEZNY</strong> aby zyskać +5% do wypłat.</p>
+        <p>Sprzedawaj skiny z CS2 i wypłacaj PayPalem, przelewem lub kryptowalutami (BTC, ETH, LTC, USDT).</p>
+        <p>Użyj kodu <strong>YUKINO</strong> i otrzymaj 1% bonusu do wartości każdej sprzedaży.</p>
       </div>
-      <div class="center">+5% BONUS</div>
+      <div class="center">+1% DO SPRZEDAŻY</div>
       <div class="right">
-        <div class="copy-code">SNIEZNY</div>
-        <a class="cta-button" href="https://rapidskins.com" target="_blank">Sprawdź →</a>
+        <div class="copy-code">YUKINO</div>
+        <a class="cta-button" href="https://rapidskins.com/a/yukino" target="_blank">Sprzedaj skiny →</a>
       </div>
     </div>
 
     <div class="card">
       <div class="left">
+        <img class="logo" src="https://csgofast.com/favicon.ico" alt="CSGOFAST logo">
         <h3>CSGOFAST.com</h3>
-        <p>Popularna strona z ruletką, upgraderem i crash dla skinów z CS2.</p>
-        <p>Użyj kodu <strong>SNIEZNY</strong> i odbierz darmowe monety na start.</p>
+        <p>Graj w ruletkę, upgrader, crash i inne tryby za skiny z CS2.</p>
+        <p>Użyj kodu <strong>SNYUZII</strong> i zgarnij darmowe monety na start.</p>
       </div>
       <div class="center">FREE COINS</div>
       <div class="right">
-        <div class="copy-code">SNIEZNY</div>
-        <a class="cta-button" href="https://csgofast.com" target="_blank">Zagraj →</a>
+        <div class="copy-code">SNYUZII</div>
+        <a class="cta-button" href="https://csgofast.com?ref=SNYUZII" target="_blank">Zagraj →</a>
       </div>
     </div>
 
     <div class="card">
       <div class="left">
+        <img class="logo" src="https://www.instant-gaming.com/favicon.ico" alt="Instant Gaming logo">
         <h3>INSTANTGAMING.com</h3>
-        <p>Kupuj gry taniej na PC, Steam, Xbox, PS4 – duże rabaty!</p>
-        <p>Użyj kodu <strong>SNIEZNY</strong> aby wesprzeć twórcę – prowizja wraca do mnie :)</p>
+        <p>Kupuj gry na PC, Steam, Xbox i PS4 – często nawet 70% taniej.</p>
+        <p>Jeśli szukasz gry, dodaj na końcu linku <code>?igr=sniezny</code>. To wspiera mnie jako twórcę.</p>
       </div>
       <div class="center">TANIE GRY</div>
       <div class="right">
-        <div class="copy-code">SNIEZNY</div>
+        <div class="copy-code">?igr=sniezny</div>
         <a class="cta-button" href="https://www.instant-gaming.com/?igr=sniezny" target="_blank">Kup teraz →</a>
       </div>
     </div>
