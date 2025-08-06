@@ -39,10 +39,9 @@
     }
 
     .button-grid {
-      display: grid;
+      display: flex;
+      justify-content: center;
       gap: 20px;
-      width: 100%;
-      max-width: 400px;
       margin-bottom: 60px;
     }
 
@@ -50,21 +49,44 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
       background-color: rgba(30, 30, 30, 0.85);
       border: 2px solid #fff;
-      border-radius: 12px;
-      color: #00ffff;
+      color: #fff;
+      font-size: 1.3rem;
       text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: all 0.3s;
-      transform-style: preserve-3d;
+      position: relative;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
 
     .button-grid a:hover {
+      transform: scale(1.2);
       background-color: rgba(43, 43, 43, 0.95);
-      transform: scale(1.1);
+    }
+
+    .button-grid a::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -30px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .button-grid a:hover::after {
+      opacity: 1;
+    }
+
+    .button-grid img {
+      width: 24px;
+      height: 24px;
     }
 
     .section {
@@ -198,10 +220,11 @@
   </div>
 
   <div class="button-grid">
-    <a href="https://discord.gg/" target="_blank">Discord</a>
-    <a href="https://instagram.com/" target="_blank">Instagram</a>
-    <a href="https://github.com/" target="_blank">GitHub</a>
-    <a href="https://youtube.com/" target="_blank">YouTube</a>
+    <a href="https://discord.gg/" target="_blank" data-label="Discord"><img src="https://i.imgur.com/UYiroys.png" alt="Discord"></a>
+    <a href="https://instagram.com/" target="_blank" data-label="Instagram"><img src="https://i.imgur.com/ZSMYsh3.png" alt="Instagram"></a>
+    <a href="https://github.com/" target="_blank" data-label="GitHub"><img src="https://i.imgur.com/KzXjW5l.png" alt="GitHub"></a>
+    <a href="https://youtube.com/" target="_blank" data-label="YouTube"><img src="https://i.imgur.com/Tj5rSgS.png" alt="YouTube"></a>
+    <a href="https://twitch.tv/" target="_blank" data-label="Twitch"><img src="https://i.imgur.com/tDWLJ8U.png" alt="Twitch"></a>
   </div>
 
   <div class="section">
@@ -284,4 +307,3 @@
   </script>
 </body>
 </html>
-
