@@ -44,6 +44,7 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+      margin-top: 80px;
     }
 
     .button-grid {
@@ -102,9 +103,9 @@
       border: 1px solid #fff;
       border-radius: 16px;
       padding: 16px 24px;
-      height: 94px;
+      height: 126px;
       box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.8);
-      margin-bottom: 30px;
+      margin-bottom: 80px;
     }
 
     .card {
@@ -121,6 +122,10 @@
       transition: transform 0.2s;
       box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.8);
       border: 1px solid #fff;
+    }
+
+    .card:hover {
+      transform: rotateX(3deg) rotateY(3deg);
     }
 
     .card .left {
@@ -240,6 +245,16 @@
   </div>
 
   <div class="section">
+    <div class="button-grid">
+      <a href="https://discord.gg/" target="_blank" data-label="Discord"><img src="https://i.imgur.com/UYiroys.png" alt="Discord"></a>
+      <a href="https://instagram.com/" target="_blank" data-label="Instagram"><img src="https://i.imgur.com/ZSMYsh3.png" alt="Instagram"></a>
+      <a href="https://github.com/" target="_blank" data-label="GitHub"><img src="https://i.imgur.com/KzXjW5l.png" alt="GitHub"></a>
+      <a href="https://youtube.com/" target="_blank" data-label="YouTube"><img src="https://i.imgur.com/Tj5rSgS.png" alt="YouTube"></a>
+      <a href="https://twitch.tv/" target="_blank" data-label="Twitch"><img src="https://i.imgur.com/tDWLJ8U.png" alt="Twitch"></a>
+    </div>
+  </div>
+
+  <div class="section">
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/EG6PCi3.png" alt="RAPIDSKINS logo">
@@ -298,5 +313,24 @@
   <footer>
     Powered by SNYUZII.GG
   </footer>
+
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / centerY * -10;
+        const rotateY = (x - centerX) / centerX * 10;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+    });
+  </script>
 </body>
 </html>
