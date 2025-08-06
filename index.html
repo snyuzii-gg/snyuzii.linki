@@ -59,7 +59,8 @@
       margin-top: 60px;
       width: 100%;
       max-width: 1000px;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 24px;
     }
 
@@ -67,21 +68,71 @@
       background: #1b1b1b;
       border: 1px solid #333;
       border-radius: 16px;
-      padding: 20px;
+      padding: 24px;
       color: #eee;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
     }
 
-    .card h3 {
+    .card .left {
+      flex: 1;
+    }
+
+    .card .left h3 {
       color: #ff4444;
-      margin: 0 0 8px 0;
+      margin: 0 0 12px 0;
+      font-size: 1.8rem;
     }
 
-    .card p {
-      margin: 0;
+    .card .left p {
+      margin: 6px 0;
       font-size: 0.95rem;
+    }
+
+    .card .center {
+      background: #000;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .card .right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .copy-code {
+      padding: 10px 20px;
+      background: transparent;
+      border: 2px dashed #ff4444;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .cta-button {
+      background: transparent;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      color: #fff;
+      padding: 10px 20px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background: #fff;
+      color: #000;
     }
 
     footer {
@@ -105,15 +156,20 @@
 
   <div class="section">
     <div class="card">
-      <h3>STREFA BONUSÓW</h3>
-      <p>Sprawdź moje aktualne kody i oferty współprac.</p>
-      <p><strong>Kod:</strong> <code>SNYUZII</code></p>
-      <p><a href="#" style="color: #00ffff;">Odbierz bonus</a></p>
-    </div>
-
-    <div class="card">
-      <h3>WSPÓŁPRACA?</h3>
-      <p>Kontakt: <a href="mailto:snyuzii@example.com" style="color: #00ffff;">snyuzii@example.com</a></p>
+      <div class="left">
+        <h3>STREFA BONUSÓW</h3>
+        <p><strong>Największe plusy:</strong></p>
+        <p>Możliwość depozytu BLIKIEM</p>
+        <p>Cotygodniowy zwrot do 10%</p>
+        <p>Duże limity, oraz szybkie wypłaty</p>
+      </div>
+      <div class="center">
+        100% BONUS POWITALNY, 100FS
+      </div>
+      <div class="right">
+        <div class="copy-code">SNYUZII</div>
+        <a class="cta-button" href="#">Odbierz bonusy →</a>
+      </div>
     </div>
   </div>
 
