@@ -16,6 +16,7 @@
       align-items: center;
       padding: 40px 20px;
       backdrop-filter: brightness(0.9);
+      perspective: 1000px;
     }
 
     .hero {
@@ -78,6 +79,8 @@
       align-items: center;
       gap: 24px;
       flex-wrap: wrap;
+      transform-style: preserve-3d;
+      transition: transform 0.1s;
     }
 
     .card .left {
@@ -154,7 +157,30 @@
       text-shadow: 0 0 3px #000;
     }
   </style>
+  <script>
+    document.addEventListener('mousemove', e => {
+      document.querySelectorAll('.card').forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width / 2);
+        const dy = e.clientY - (rect.top + rect.height / 2);
+        const tiltX = dy / rect.height * 15;
+        const tiltY = dx / rect.width * -15;
+        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      });
+    });
+
+    document.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+    });
+  </script>
 </head>
+<body>
+  <!-- Zawartość strony -->
+</body>
+</html>
+
 <body>
   <div class="hero">
     <h1>@snyuzii</h1>
