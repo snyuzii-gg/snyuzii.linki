@@ -64,6 +64,33 @@
       text-transform: uppercase;
       color: #fff;
       text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+      }
+
+    .logo-text {
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo-text::before,
+    .logo-text::after {
+      content: "✨";
+      position: absolute;
+      font-size: 1.2rem;
+      color: #fff;
+      animation: sparkle 2s infinite;
+      opacity: 0;
+    }
+
+    .logo-text::before {
+      top: -20px;
+      left: 20%;
+      animation-delay: 0s;
+    }
+
+    .logo-text::after {
+      bottom: -20px;
+      right: 20%;
+      animation-delay: 1s;
     }
 
     .stream-label {
@@ -299,11 +326,12 @@
   <div class="news-ticker">
     <div class="ticker-content">
       🌟 Witamy na SNYUZII.XYZ! ✨ Streamy w KAŻDĄ sobotę o 20:00 | 🚀 Kod YUKINO na RapidSkins.com | 🎯 Kod SNYUZII na CSGOFast.com | 🌐 Dołącz do nas: discord.gg/ZPZY6h6DP3
+      🌟 Witamy na SNYUZII.XYZ! ✨ Streamy w KAŻDĄ sobotę o 20:00 | 🚀 Kod YUKINO na RapidSkins.com | 🎯 Kod SNYUZII na CSGOFast.com | 🌐 Dołącz do nas: discord.gg/ZPZY6h6DP3
     </div>
   </div>
 
   <div class="hero">
-    <h1>SNYUZII</h1>
+    <h1><span class="logo-text">SNYUZII</span></h1>
   </div>
 
   <div class="social-card">
