@@ -395,14 +395,28 @@
   </footer>
 
   <script>
-    ScrollReveal().reveal('.section .card', {
+    const sr = ScrollReveal({
       duration: 1000,
       origin: 'bottom',
       distance: '50px',
       easing: 'ease-in-out',
       reset: false,
-      interval: 200
+      interval: 200,
+      viewFactor: 0.2
     });
+
+    sr.reveal('.section .card');
+
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", function(){
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st < lastScrollTop){
+        document.querySelectorAll('.section .card').forEach(el => el.style.opacity = '0');
+      } else {
+        document.querySelectorAll('.section .card').forEach(el => el.style.opacity = '1');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    }, false);
   </script>
 </body>
 </html>
