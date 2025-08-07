@@ -98,7 +98,7 @@
     }
 
     .card:hover {
-      transform: rotateX(1deg) rotateY(1deg);
+      transform: rotateX(6deg) rotateY(6deg);
     }
 
     .card .left {
@@ -180,6 +180,25 @@
       background: #00ffff;
       color: #000;
       transform: scale(1.05);
+    }
+
+    .card .right a.cta-button {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card .right {
+      position: relative;
+    }
+
+    .card .right::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
 
     .button-grid {
