@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SNYUZII</title>
+  <script src="https://unpkg.com/scrollreveal"></script>
   <style>
     @keyframes scan {
       0% { left: -100%; }
@@ -393,5 +394,15 @@
     Powered by SNYUZII.XYZ
   </footer>
 
+  <script>
+    ScrollReveal().reveal('.section .card', {
+      duration: 1000,
+      origin: 'bottom',
+      distance: '50px',
+      easing: 'ease-in-out',
+      reset: false,
+      interval: 200
+    });
+  </script>
 </body>
 </html>
