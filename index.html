@@ -17,6 +17,17 @@
       100% { transform: translateX(-100%); }
     }
 
+    @keyframes sparkle {
+      0%, 100% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2) rotate(360deg);
+        opacity: 1;
+      }
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -64,7 +75,7 @@
       text-transform: uppercase;
       color: #fff;
       text-shadow: 0 0 10px #fff, 0 0 20px #fff;
-      }
+    }
 
     .logo-text {
       position: relative;
@@ -91,6 +102,11 @@
       bottom: -20px;
       right: 20%;
       animation-delay: 1s;
+    }
+
+    .section .card {
+      opacity: 1;
+      transition: opacity 0.6s ease-in-out;
     }
 
     .stream-label {
@@ -322,7 +338,6 @@
   </style>
 </head>
 <body>
-
   <div class="news-ticker">
     <div class="ticker-content">
       🌟 Witamy na SNYUZII.XYZ! ✨ Streamy w KAŻDĄ sobotę o 20:00 | 🚀 Kod YUKINO na RapidSkins.com | 🎯 Kod SNYUZII na CSGOFast.com | 🌐 Dołącz do nas: discord.gg/ZPZY6h6DP3
