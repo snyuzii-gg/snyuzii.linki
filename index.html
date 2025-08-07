@@ -11,6 +11,11 @@
       100% { left: 100%; }
     }
 
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -20,9 +25,31 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 20px;
+      padding: 100px 20px 40px;
       backdrop-filter: brightness(0.9);
       perspective: 1000px;
+    }
+
+    .news-ticker {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 0;
+      color: #00d0ff;
+      font-weight: bold;
+      font-size: 0.9rem;
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: 0 0 10px #00d0ff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 30s linear infinite;
     }
 
     .hero {
@@ -165,7 +192,7 @@
       padding: 6px 14px;
       font-weight: bold;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease, color 0.3s ease;
       cursor: pointer;
       margin-top: 20px;
       z-index: 1;
@@ -175,17 +202,6 @@
     .cta-button:hover {
       background: #00ffff;
       color: #000;
-      transform: scale(1.05);
-    }
-
-    .card .right::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 0;
-      width: 100%;
-      height: 44px;
-      z-index: 0;
     }
 
     .button-grid {
@@ -281,9 +297,17 @@
   </style>
 </head>
 <body>
+
+  <div class="news-ticker">
+    <div class="ticker-content">
+      🌟 Witamy na SNYUZII.XYZ! ✨ Streamy w KAŻDĄ sobotę o 20:00 | 🚀 Kod <strong>YUKINO</strong> na RapidSkins.com | 🎯 Kod <strong>SNYUZII</strong> na CSGOFast.com | 🌐 Dołącz do nas: <strong>discord.gg/ZPZY6h6DP3</strong>
+    </div>
+  </div>
+
   <div class="hero">
     <h1>SNYUZII</h1>
   </div>
+
   <div class="social-card">
     <div class="button-grid">
       <a href="https://discord.gg/ZPZY6h6DP3" target="_blank" data-label="Discord"><img src="https://i.imgur.com/2yMQpWz.png" alt="Discord"></a>
@@ -304,6 +328,7 @@
   </div>
 
   <div class="section">
+    <!-- RAPIDSKINS -->
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/EG6PCi3.png" alt="RAPIDSKINS logo">
@@ -322,6 +347,7 @@
       </div>
     </div>
 
+    <!-- CSGOFAST -->
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/hOQRvOK.png" alt="CSGOFAST logo">
@@ -340,6 +366,7 @@
       </div>
     </div>
 
+    <!-- INSTANT GAMING -->
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/KzkZaZi.png" alt="Instant Gaming logo">
@@ -359,13 +386,15 @@
     </div>
   </div>
 
-
   <div class="contact-info">
     kontakt<br>
     discord: snyuzii.xyz<br>
     e-mail: sniezny@snyuzii.xyz
   </div>
+
   <footer>
     Powered by SNYUZII.XYZ
   </footer>
 
+</body>
+</html>
