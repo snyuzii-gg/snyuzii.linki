@@ -4,402 +4,145 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SNYUZII</title>
-<link rel="icon" href="https://i.imgur.com/HsYppSG.png" type="image/png">
+  <link rel="icon" href="https://i.imgur.com/HsYppSG.png" type="image/png">
   <script src="https://unpkg.com/scrollreveal"></script>
   <style>
-    @keyframes scan {
-      0% { left: -100%; }
-      50% { left: 100%; }
-      100% { left: 100%; }
-    }
-
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
+    @keyframes scan { 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
+    @keyframes scroll-left { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
     @keyframes sparkle {
-      0%, 100% {
-        transform: scale(0.5) rotate(0deg);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.2) rotate(360deg);
-        opacity: 1;
-      }
-    }
-/* === MUSIC CARD === */
-.music-card {
-  align-items: center;
-  gap: 16px;
-}
-
-.player-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.player-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #000;
-  border: 2px solid #00ffff;
-  color: #fff;
-  cursor: pointer;
-  font-size: 0; /* ikonki tylko ze SVG */
-  display: grid;
-  place-items: center;
-  transition: transform .2s ease, background .2s ease, color .2s ease;
-}
-
-.player-btn:hover {
-  transform: scale(1.06);
-  background: #00ffff;
-  color: #000;
-}
-
-/* przewijający się tytuł utworu */
-.player-track {
-  position: relative;
-  overflow: hidden;
-  width: 200px; /* szerokość pola tekstu */
-  height: 1.2em;
-  font-size: .95rem;
-  color: #ccc;
-}
-
-.player-track span {
-  display: inline-block;
-  white-space: nowrap;
-  animation: marquee 8s linear infinite;
-  padding-left: 100%;
-}
-
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-/* proste ikonki w SVG dziedziczą kolor z buttona */
-.player-btn svg {
-  width: 24px;
-  height: 24px;
-}
-
-
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: url("https://i.imgur.com/Nsrp54Q.jpeg") no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 100px 20px 40px;
-      backdrop-filter: brightness(0.9);
-      perspective: 1000px;
+      0%,100%{transform:scale(.5) rotate(0);opacity:0}
+      50%{transform:scale(1.2) rotate(360deg);opacity:1}
     }
 
-    .news-ticker {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 10px 0;
-      color: white;
-      font-weight: bold;
-      font-size: 0.9rem;
-      overflow: hidden;
-      white-space: nowrap;
-      box-shadow: 0 0 10px #00d0ff;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
+    /* === MUSIC CARD === */
+    .music-card { align-items:center; gap:16px; }
+    .player-right { display:flex; align-items:center; gap:12px; }
+    .player-btn {
+      width:52px; height:52px; border-radius:50%;
+      background:#000; border:2px solid #00ffff; color:#fff;
+      cursor:pointer; font-size:0; display:grid; place-items:center;
+      transition:transform .2s ease, background .2s ease, color .2s ease;
     }
+    .player-btn:hover { transform:scale(1.06); background:#00ffff; color:#000; }
 
-    .ticker-content {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 15s linear infinite;
+    /* przewijający się tytuł utworu */
+    .player-track{
+      position:relative; overflow:hidden; width:200px; height:1.2em;
+      font-size:.95rem; color:#ccc;
     }
-
-    .hero {
-      text-align: center;
-      margin-bottom: 40px;
+    .player-track span{
+      display:inline-block; white-space:nowrap; padding-left:100%;
+      animation:marquee 8s linear infinite;
     }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+    .player-btn svg{ width:24px; height:24px; }
 
-    .hero h1 {
-      font-size: 4rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: #fff;
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+    /* === OVERLAY CLICK TO ENTER === */
+    #startOverlay{
+      position:fixed; inset:0; background:#0d0d0d; display:flex;
+      justify-content:center; align-items:center; z-index:9999; flex-direction:column;
+      cursor:pointer; transition:opacity .4s ease;
     }
-
-    .logo-text {
-      position: relative;
-      display: inline-block;
+    #startOverlay p{
+      font-size:2rem; font-weight:800; color:#fff; text-shadow:0 0 10px #9b5cff;
+      animation:pulse 1.5s infinite;
     }
+    #startOverlay .hint{ margin-top:10px; font-size:.9rem; color:#9aa; opacity:.9 }
+    @keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 
-    .logo-text::before,
-    .logo-text::after {
-      content: "✨";
-      position: absolute;
-      font-size: 1.2rem;
-      color: #fff;
-      animation: sparkle 2s infinite;
-      opacity: 0;
+    body { margin:0; font-family:'Segoe UI',sans-serif;
+      background:url("https://i.imgur.com/Nsrp54Q.jpeg") no-repeat center center fixed;
+      background-size:cover; color:#fff; display:flex; flex-direction:column; align-items:center;
+      padding:100px 20px 40px; backdrop-filter:brightness(.9); perspective:1000px;
     }
-
-    .logo-text::before {
-      top: -20px;
-      left: 20%;
-      animation-delay: 0s;
+    .news-ticker{ width:100%; background:rgba(0,0,0,.8); padding:10px 0; color:#fff;
+      font-weight:bold; font-size:.9rem; overflow:hidden; white-space:nowrap;
+      box-shadow:0 0 10px #00d0ff; position:fixed; top:0; left:0; z-index:1000;
     }
-
-    .logo-text::after {
-      bottom: -20px;
-      right: 20%;
-      animation-delay: 1s;
+    .ticker-content{ display:inline-block; padding-left:100%; animation:scroll-left 15s linear infinite; }
+    .hero{ text-align:center; margin-bottom:40px; }
+    .hero h1{ font-size:4rem; font-weight:bold; text-transform:uppercase; color:#fff; text-shadow:0 0 10px #fff,0 0 20px #fff; }
+    .logo-text{ position:relative; display:inline-block; }
+    .logo-text::before, .logo-text::after{
+      content:"✨"; position:absolute; font-size:1.2rem; color:#fff; animation:sparkle 2s infinite; opacity:0;
     }
+    .logo-text::before{ top:-20px; left:20%; animation-delay:0s; }
+    .logo-text::after{ bottom:-20px; right:20%; animation-delay:1s; }
 
-    .section .card {
-      opacity: 1;
-      transition: opacity 0.6s ease-in-out;
+    .section .card{ opacity:1; transition:opacity .6s ease-in-out; }
+    .stream-label{ font-size:2rem; font-weight:bold; margin:30px 0 10px; }
+    .stream-label .white{ color:#fff; text-shadow:0 0 10px #fff; }
+    .stream-label .blue{ color:#00d0ff; text-shadow:0 0 10px #00d0ff; }
+
+    .stream-container{
+      width:100%; max-width:1000px; margin-top:10px; margin-bottom:40px;
+      border:2px solid #fff; border-radius:16px; overflow:hidden;
+      box-shadow:0 0 30px rgba(255,255,255,.8);
     }
+    iframe.twitch-embed{ width:100%; height:500px; border:none; display:block; }
 
-    .stream-label {
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 30px 0 10px;
+    .section{ width:100%; max-width:1000px; display:flex; flex-direction:column; gap:24px; margin-top:80px; }
+    .card{
+      background:rgba(27,27,27,.9); border-radius:16px; padding:24px; color:#eee;
+      display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+      box-shadow:0 0 30px rgba(255,255,255,.8), 0 0 0 3px rgba(255,255,255,.8);
+      border:1px solid #fff;
     }
-
-    .stream-label .white {
-      color: white;
-      text-shadow: 0 0 10px white;
+    .card .left{ display:flex; align-items:center; gap:16px; }
+    .card .left .logo{ width:64px; height:64px; object-fit:contain; }
+    .card .left .info{ display:flex; flex-direction:column; justify-content:center; }
+    .card .left .info h3{ margin:0; font-size:1.6rem; color:#fff; }
+    .card .center{ text-align:center; flex:1; }
+    .card .center .tagline{
+      margin-bottom:12px; padding:8px 16px; background:#000; border-radius:8px;
+      font-weight:bold; width:fit-content; margin-left:auto; margin-right:auto;
     }
-
-    .stream-label .blue {
-      color: #00d0ff;
-      text-shadow: 0 0 10px #00d0ff;
+    .card .center p{ margin:6px 0; font-size:.95rem; }
+    .card .right{ display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+    .copy-code{ padding:10px 20px; background:transparent; border:2px dashed #00ffff; border-radius:10px; color:#fff; font-weight:bold; }
+    .cta-button{
+      background:transparent; border:2px solid #00ffff; border-radius:10px; color:#fff;
+      padding:6px 14px; font-weight:bold; text-decoration:none;
+      transition:background .3s ease, color .3s ease; cursor:pointer; margin-top:20px;
     }
+    .cta-button:hover{ background:#00ffff; color:#000; }
 
-    .stream-container {
-      width: 100%;
-      max-width: 1000px;
-      margin-top: 10px;
-      margin-bottom: 40px;
-      border: 2px solid #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+    .button-grid{ display:flex; justify-content:center; gap:20px; margin-bottom:60px; }
+    .button-grid a{
+      display:flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:50%;
+      background-color:rgba(30,30,30,.85); border:2px solid #fff; color:#fff; font-size:1.3rem; text-decoration:none;
+      position:relative; transition:transform .3s ease, background .3s ease;
     }
-
-    iframe.twitch-embed {
-      width: 100%;
-      height: 500px;
-      border: none;
-      display: block;
+    .button-grid a:hover{ transform:scale(1.2); background-color:rgba(43,43,43,.95); }
+    .button-grid a::after{
+      content:attr(data-label); position:absolute; bottom:-30px; background:rgba(0,0,0,.6);
+      color:#fff; font-size:.75rem; padding:4px 8px; border-radius:6px; opacity:0; pointer-events:none; transition:opacity .3s;
     }
+    .button-grid a:hover::after{ opacity:1; }
+    .button-grid img{ width:24px; height:24px; }
 
-    .section {
-      width: 100%;
-      max-width: 1000px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      margin-top: 80px;
+    .social-card{ background:rgba(27,27,27,.9); border:1px solid #fff; border-radius:16px; padding:16px 24px; height:90px;
+      box-shadow:0 0 30px rgba(255,255,255,.8), 0 0 0 3px rgba(255,255,255,.8); margin-bottom:80px; }
+    .contact-info{ margin:30px 0 0; font-size:.85rem; text-align:center; line-height:1.4; color:#ccc; }
+
+    footer{
+      margin-top:10px; font-size:.9rem; color:#fff; position:relative; background:rgba(0,0,0,.4);
+      padding:10px 20px; border-radius:12px; overflow:hidden;
     }
-
-
-    .card {
-      background: rgba(27, 27, 27, 0.9);
-      border-radius: 16px;
-      padding: 24px;
-      color: #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.8);
-      border: 1px solid #fff;
-    }
-
-    .card .left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .card .left .logo {
-      width: 64px;
-      height: 64px;
-      object-fit: contain;
-    }
-
-    .card .left .info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .card .left .info h3 {
-      margin: 0;
-      font-size: 1.6rem;
-      color: #fff;
-    }
-
-    .card .center {
-      text-align: center;
-      flex: 1;
-    }
-
-    .card .center .tagline {
-      margin-bottom: 12px;
-      padding: 8px 16px;
-      background: #000;
-      border-radius: 8px;
-      font-weight: bold;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .card .center p {
-      margin: 6px 0;
-      font-size: 0.95rem;
-    }
-
-    .card .right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-    }
-
-    .copy-code {
-      padding: 10px 20px;
-      background: transparent;
-      border: 2px dashed #00ffff;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .cta-button {
-      background: transparent;
-      border: 2px solid #00ffff;
-      border-radius: 10px;
-      color: #fff;
-      padding: 6px 14px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.3s ease, color 0.3s ease;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .cta-button:hover {
-      background: #00ffff;
-      color: #000;
-    }
-
-    .button-grid {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 60px;
-    }
-
-    .button-grid a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: rgba(30, 30, 30, 0.85);
-      border: 2px solid #fff;
-      color: #fff;
-      font-size: 1.3rem;
-      text-decoration: none;
-      position: relative;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    .button-grid a:hover {
-      transform: scale(1.2);
-      background-color: rgba(43, 43, 43, 0.95);
-    }
-
-    .button-grid a::after {
-      content: attr(data-label);
-      position: absolute;
-      bottom: -30px;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      font-size: 0.75rem;
-      padding: 4px 8px;
-      border-radius: 6px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-
-    .button-grid a:hover::after {
-      opacity: 1;
-    }
-
-    .button-grid img {
-      width: 24px;
-      height: 24px;
-    }
-
-    .social-card {
-      background: rgba(27, 27, 27, 0.9);
-      border: 1px solid #fff;
-      border-radius: 16px;
-      padding: 16px 24px;
-      height: 90px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.8);
-      margin-bottom: 80px;
-    }
-
-    .contact-info {
-      margin: 30px 0 0;
-      font-size: 0.85rem;
-      text-align: center;
-      line-height: 1.4;
-      color: #ccc;
-    }
-
-    footer {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #fff;
-      position: relative;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 10px 20px;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    footer::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
-      animation: scan 3s infinite;
+    footer::after{
+      content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background:linear-gradient(120deg, transparent, rgba(255,255,255,.5), transparent);
+      animation:scan 3s infinite;
     }
   </style>
 </head>
 <body>
+  <!-- Overlay CLICK to enter -->
+  <div id="startOverlay">
+    <p>💵 👉 CLICK 👈 💵</p>
+    <div class="hint">Kliknij, aby wejść i włączyć muzykę</div>
+  </div>
+
   <div class="news-ticker">
     <div class="ticker-content">
       🌟 Witamy na SNYUZII.XYZ! ✨ Streamy w KAŻDĄ sobotę o 20:00 | 🚀 Kod YUKINO na RapidSkins.com | 🎯 Kod SNYUZII na CSGOFast.com | 🌐 Dołącz do nas: discord.gg/ZPZY6h6DP3
@@ -425,46 +168,40 @@
     <iframe
       class="twitch-embed"
       src="https://player.twitch.tv/?channel=snieznybot&parent=snyuzii.xyz"
-      allowfullscreen>
-    </iframe>
+      allowfullscreen></iframe>
   </div>
-
-<!-- MUSIC PLAYER -->
-<div class="card music-card">
-  <div class="left">
-    <img class="logo" src="https://i.imgur.com/HsYppSG.png" alt="Music logo">
-    <div class="info">
-      <h3>Radyjko</h3>
-      <div class="player-track">
-        <span>SKUMAJ - TO NIE ICH TEREN</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="player-right">
-    <button id="playPause" class="player-btn" aria-label="Odtwórz/Pauza">
-      <!-- play icon -->
-      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-    </button>
-    <button id="muteBtn" class="player-btn" aria-label="Wycisz/Odcisz">
-      <!-- volume icon -->
-      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 4V5l-5 4H5z"/></svg>
-    </button>
-
-    <!-- Audio – podmień src na swój plik/URL -->
-    <audio id="bgAudio"
-  src="https://raw.githubusercontent.com/snyuzii-gg/snyuzii.linki/main/Skumaj%20-%20To%20nie%20ich%20teren%20prod.Hugepat%20x%20Zzzipper.mp3" preload="auto" loop></audio>
-  </div>
-</div>
 
   <div class="section">
+    <!-- MUSIC PLAYER (teraz pierwszy kafelek w .section) -->
+    <div class="card music-card">
+      <div class="left">
+        <img class="logo" src="https://i.imgur.com/HsYppSG.png" alt="Music logo">
+        <div class="info">
+          <h3>Radyjko</h3>
+          <div class="player-track"><span>SKUMAJ - TO NIE ICH TEREN</span></div>
+        </div>
+      </div>
+
+      <div class="player-right">
+        <button id="playPause" class="player-btn" aria-label="Odtwórz/Pauza">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button id="muteBtn" class="player-btn" aria-label="Wycisz/Odcisz">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 4V5l-5 4H5z"/></svg>
+        </button>
+
+        <!-- Audio -->
+        <audio id="bgAudio"
+          src="https://raw.githubusercontent.com/snyuzii-gg/snyuzii.linki/main/Skumaj%20-%20To%20nie%20ich%20teren%20prod.Hugepat%20x%20Zzzipper.mp3"
+          preload="auto" loop type="audio/mpeg"></audio>
+      </div>
+    </div>
+
     <!-- RAPIDSKINS -->
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/EG6PCi3.png" alt="RAPIDSKINS logo">
-        <div class="info">
-          <h3>RAPIDSKINS.com</h3>
-        </div>
+        <div class="info"><h3>RAPIDSKINS.com</h3></div>
       </div>
       <div class="center">
         <div class="tagline">+1% DO SPRZEDAŻY</div>
@@ -481,9 +218,7 @@
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/hOQRvOK.png" alt="CSGOFAST logo">
-        <div class="info">
-          <h3>CSGOFAST.com</h3>
-        </div>
+        <div class="info"><h3>CSGOFAST.com</h3></div>
       </div>
       <div class="center">
         <div class="tagline">FREE COINS</div>
@@ -500,9 +235,7 @@
     <div class="card">
       <div class="left">
         <img class="logo" src="https://i.imgur.com/KzkZaZi.png" alt="Instant Gaming logo">
-        <div class="info">
-          <h3>INSTANT-GAMING.com</h3>
-        </div>
+        <div class="info"><h3>INSTANT-GAMING.com</h3></div>
       </div>
       <div class="center">
         <div class="tagline">TANIE GRY</div>
@@ -517,107 +250,93 @@
   </div>
 
   <div class="contact-info">
-    kontakt<br>
-    discord: snyuzii.xyz<br>
-    e-mail: sniezny@snyuzii.xyz
+    kontakt<br>discord: snyuzii.xyz<br>e-mail: sniezny@snyuzii.xyz
   </div>
 
-  <footer>
-    Powered by SNYUZII.XYZ
-  </footer>
+  <footer>Powered by SNYUZII.XYZ</footer>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    /* --- ScrollReveal --- */
-    if (window.ScrollReveal) {
-      const sr = ScrollReveal({
-        duration: 1000,
-        origin: 'bottom',
-        distance: '50px',
-        easing: 'ease-in-out',
-        reset: false,
-        interval: 200,
-        viewFactor: 0.2
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* --- ScrollReveal --- */
+      if (window.ScrollReveal) {
+        const sr = ScrollReveal({
+          duration: 1000, origin: 'bottom', distance: '50px',
+          easing: 'ease-in-out', reset: false, interval: 200, viewFactor: 0.2
+        });
+        sr.reveal('.section .card');
+      }
+
+      /* --- Fade kart przy scrollu --- */
+      let lastScrollTop = 0;
+      window.addEventListener('scroll', () => {
+        const st = window.pageYOffset || document.documentElement.scrollTop;
+        document.querySelectorAll('.section .card').forEach(el => {
+          el.style.opacity = st < lastScrollTop ? '0' : '1';
+        });
+        lastScrollTop = st <= 0 ? 0 : st;
+      }, false);
+
+      /* --- Blokada PPM i skrótów devtools --- */
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault();
       });
-      sr.reveal('.section .card');
-    }
 
-    /* --- Fade kart przy scrollu --- */
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', () => {
-      const st = window.pageYOffset || document.documentElement.scrollTop;
-      document.querySelectorAll('.section .card').forEach(el => {
-        el.style.opacity = st < lastScrollTop ? '0' : '1';
-      });
-      lastScrollTop = st <= 0 ? 0 : st;
-    }, false);
+      /* --- Odtwarzacz audio --- */
+      const audio   = document.getElementById('bgAudio');
+      const playBtn = document.getElementById('playPause');
+      const muteBtn = document.getElementById('muteBtn');
 
-    /* --- Blokada PPM i skrótów devtools --- */
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-        e.preventDefault();
+      if (audio && playBtn && muteBtn) {
+        let isPlaying = false;
+
+        const setPlayIcon = playing => {
+          playBtn.innerHTML = playing
+            ? '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>'
+            : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';
+        };
+        const setMuteIcon = muted => {
+          muteBtn.innerHTML = muted
+            ? '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 12 20 8.5l1.5 1.5L18 13.5l3.5 3.5L20 18.5 16.5 15 13 18.5V5.5L16.5 9l3.5-3.5L21.5 7 18 10.5 21.5 14 20 15.5 16.5 12zM5 9v6h4l5 4V5l-5 4H5z"/></svg>'
+            : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 4V5l-5 4H5z"/></svg>';
+        };
+
+        // ikonki startowe
+        setPlayIcon(false);
+        setMuteIcon(false);
+
+        playBtn.addEventListener('click', async () => {
+          try {
+            if (!isPlaying) { await audio.play(); isPlaying = true; }
+            else { audio.pause(); isPlaying = false; }
+            setPlayIcon(isPlaying);
+          } catch (err) { console.warn('Problem z odtworzeniem:', err); }
+        });
+
+        muteBtn.addEventListener('click', () => {
+          audio.muted = !audio.muted;
+          setMuteIcon(audio.muted);
+        });
+
+        /* --- OVERLAY CLICK TO ENTER --- */
+        const overlay = document.getElementById('startOverlay');
+        const start = () => {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 400);
+          audio.play()
+            .then(() => { isPlaying = true; setPlayIcon(true); })
+            .catch(err => console.warn('Autoplay z dźwiękiem zablokowany:', err));
+        };
+        overlay.addEventListener('click', start, { once: true });
+        overlay.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') start();
+        });
+        overlay.tabIndex = 0;
+        overlay.focus();
+      } else {
+        console.warn('Player: brak elementów #bgAudio / #playPause / #muteBtn');
       }
     });
-
-    /* --- Odtwarzacz audio --- */
-    const audio   = document.getElementById('bgAudio');
-    const playBtn = document.getElementById('playPause');
-    const muteBtn = document.getElementById('muteBtn');
-
-    if (audio && playBtn && muteBtn) {
-      let isPlaying = false;
-
-      const setPlayIcon = playing => {
-        playBtn.innerHTML = playing
-          ? '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>'  // pause
-          : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';               // play
-      };
-
-      const setMuteIcon = muted => {
-        muteBtn.innerHTML = muted
-          ? '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 12 20 8.5l1.5 1.5L18 13.5l3.5 3.5L20 18.5 16.5 15 13 18.5V5.5L16.5 9l3.5-3.5L21.5 7 18 10.5 21.5 14 20 15.5 16.5 12zM5 9v6h4l5 4V5l-5 4H5z"/></svg>' // muted
-          : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 4V5l-5 4H5z"/></svg>';                                            // volume
-      };
-
-      // startowe ikonki
-      setPlayIcon(true);
-      setMuteIcon(false);
-
-      // próba autoplay z dźwiękiem
-      audio.play().then(() => {
-        isPlaying = true;
-        setPlayIcon(true);
-      }).catch(err => {
-        console.warn('Autoplay z dźwiękiem zablokowany przez przeglądarkę:', err);
-      });
-
-      playBtn.addEventListener('click', async () => {
-        try {
-          if (!isPlaying) {
-            await audio.play();
-            isPlaying = true;
-          } else {
-            audio.pause();
-            isPlaying = false;
-          }
-          setPlayIcon(isPlaying);
-        } catch (err) {
-          console.warn('Problem z odtworzeniem:', err);
-        }
-      });
-
-      muteBtn.addEventListener('click', () => {
-        audio.muted = !audio.muted;
-        setMuteIcon(audio.muted);
-      });
-
-      // opcjonalnie: głośność startowa
-      // audio.volume = 0.7;
-    } else {
-      console.warn('Player: brak elementów #bgAudio / #playPause / #muteBtn');
-    }
-  });
-</script>
+  </script>
 </body>
 </html>
