@@ -18,9 +18,9 @@
     .music-card {
       align-items: center;
       gap: 16px;
-      padding: 16px;        /* ciaśniej niż reszta kart */
-      max-width: 600px;     /* węższy kafelek playera */
-      margin: 0 auto 56px;  /* większy odstęp przed RapidSkins */
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto 56px; /* większy odstęp przed RapidSkins */
     }
     .player-right { display:flex; align-items:center; gap:12px; }
     .player-btn {
@@ -47,8 +47,8 @@
     /* === OVERLAY CLICK TO ENTER === */
     #startOverlay{
       position:fixed; inset:0; background:#0d0d0d; display:flex;
-      justify-content:center; align-items:center; z-index:9999; flex-direction:column;
-      cursor:pointer; transition:opacity .4s ease; overflow:hidden; /* brak scrolla w overlayu */
+      justify-content:center; align-items:center; z-index:999999; flex-direction:column;
+      cursor:pointer; transition:opacity .4s ease; overflow:hidden;
     }
     #startOverlay p{
       font-size:2rem; font-weight:800; color:#fff; text-shadow:0 0 10px #9b5cff;
@@ -59,12 +59,15 @@
     /* blokada scrolla całej strony gdy overlay jest aktywny */
     body.overlay-lock { overflow:hidden; }
 
-    body { margin:0; font-family:'Segoe UI',sans-serif;
+    body {
+      margin:0; font-family:'Segoe UI',sans-serif;
       background:url("https://i.imgur.com/Nsrp54Q.jpeg") no-repeat center center fixed;
       background-size:cover; color:#fff; display:flex; flex-direction:column; align-items:center;
       padding:100px 20px 40px; backdrop-filter:brightness(.9); perspective:1000px;
     }
-    .news-ticker{ width:100%; background:rgba(0,0,0,.8); padding:10px 0; color:#fff;
+
+    .news-ticker{
+      width:100%; background:rgba(0,0,0,.8); padding:10px 0; color:#fff;
       font-weight:bold; font-size:.9rem; overflow:hidden; white-space:nowrap;
       box-shadow:0 0 10px #00d0ff; position:fixed; top:0; left:0; z-index:1000;
     }
@@ -136,8 +139,10 @@
     .button-grid a:hover::after{ opacity:1; }
     .button-grid img{ width:24px; height:24px; }
 
-    .social-card{ background:rgba(27,27,27,.9); border:1px solid #fff; border-radius:16px; padding:16px 24px; height:90px;
-      box-shadow:0 0 30px rgba(255,255,255,.8), 0 0 0 3px rgba(255,255,255,.8); margin-bottom:80px; }
+    .social-card{
+      background:rgba(27,27,27,.9); border:1px solid #fff; border-radius:16px; padding:16px 24px; height:90px;
+      box-shadow:0 0 30px rgba(255,255,255,.8), 0 0 0 3px rgba(255,255,255,.8); margin-bottom:80px;
+    }
     .contact-info{ margin:30px 0 0; font-size:.85rem; text-align:center; line-height:1.4; color:#ccc; }
 
     footer{
@@ -151,9 +156,9 @@
     }
   </style>
 </head>
-<body>
+<body class="overlay-lock">
   <!-- Overlay CLICK to enter -->
-  <div id="startOverlay">
+  <div id="startOverlay" role="button" aria-label="Kliknij, aby wejść i włączyć muzykę" tabindex="0">
     <p>💵 👉 CLICK 👈 💵</p>
     <div class="hint">Kliknij, aby wejść i włączyć muzykę</div>
   </div>
@@ -335,8 +340,7 @@
 
         /* --- OVERLAY CLICK TO ENTER (blokada scrolla do czasu kliknięcia) --- */
         const overlay = document.getElementById('startOverlay');
-        // Zablokuj scroll zanim user kliknie
-        document.body.classList.add('overlay-lock');
+        document.body.classList.add('overlay-lock'); // blokuj scroll do kliknięcia
 
         const start = () => {
           overlay.style.opacity = '0';
@@ -353,7 +357,6 @@
         overlay.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') start();
         });
-        overlay.tabIndex = 0;
         overlay.focus();
       } else {
         console.warn('Player: brak elementów #bgAudio / #playPause / #muteBtn');
