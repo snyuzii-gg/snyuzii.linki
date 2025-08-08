@@ -571,18 +571,26 @@
       const setPlayIcon = playing => {
         playBtn.innerHTML = playing
           ? '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>'  // pause
-          : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';           // play
+          : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';               // play
       };
 
       const setMuteIcon = muted => {
         muteBtn.innerHTML = muted
           ? '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 12 20 8.5l1.5 1.5L18 13.5l3.5 3.5L20 18.5 16.5 15 13 18.5V5.5L16.5 9l3.5-3.5L21.5 7 18 10.5 21.5 14 20 15.5 16.5 12zM5 9v6h4l5 4V5l-5 4H5z"/></svg>' // muted
-          : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 4V5l-5 4H5z"/></svg>';                                           // volume
+          : '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 4V5l-5 4H5z"/></svg>';                                            // volume
       };
 
       // startowe ikonki
-      setPlayIcon(false);
+      setPlayIcon(true);
       setMuteIcon(audio.muted);
+
+      // autoplay od razu po wejściu
+      audio.play().then(() => {
+        isPlaying = true;
+        setPlayIcon(true);
+      }).catch(err => {
+        console.warn('Autoplay zablokowany przez przeglądarkę:', err);
+      });
 
       playBtn.addEventListener('click', async () => {
         try {
@@ -595,7 +603,7 @@
           }
           setPlayIcon(isPlaying);
         } catch (err) {
-          console.warn('Autoplay zablokowany – kliknij, aby odtworzyć:', err);
+          console.warn('Problem z odtworzeniem:', err);
         }
       });
 
