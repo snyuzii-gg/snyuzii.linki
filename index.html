@@ -18,9 +18,9 @@
     .music-card {
       align-items: center;
       gap: 16px;
-      padding: 16px;
-      max-width: 600px;
-      margin: 0 auto 56px; /* większy odstęp przed RapidSkins */
+      padding: 16px;        /* ciaśniej niż reszta kart */
+      max-width: 600px;     /* węższy kafelek playera */
+      margin: 0 auto 56px;  /* większy odstęp przed RapidSkins */
     }
     .player-right { display:flex; align-items:center; gap:12px; }
     .player-btn {
@@ -45,10 +45,11 @@
     .player-btn svg{ width:24px; height:24px; }
 
     /* === OVERLAY CLICK TO ENTER === */
+    html, body { height: 100%; }
     #startOverlay{
       position:fixed; inset:0; background:#0d0d0d; display:flex;
-      justify-content:center; align-items:center; z-index:999999; flex-direction:column;
-      cursor:pointer; transition:opacity .4s ease; overflow:hidden;
+      justify-content:center; align-items:center; z-index:2147483647; /* max-na-wierzchu */
+      flex-direction:column; cursor:pointer; transition:opacity .4s ease; overflow:hidden;
     }
     #startOverlay p{
       font-size:2rem; font-weight:800; color:#fff; text-shadow:0 0 10px #9b5cff;
@@ -139,10 +140,8 @@
     .button-grid a:hover::after{ opacity:1; }
     .button-grid img{ width:24px; height:24px; }
 
-    .social-card{
-      background:rgba(27,27,27,.9); border:1px solid #fff; border-radius:16px; padding:16px 24px; height:90px;
-      box-shadow:0 0 30px rgba(255,255,255,.8), 0 0 0 3px rgba(255,255,255,.8); margin-bottom:80px;
-    }
+    .social-card{ background:rgba(27,27,27,.9); border:1px solid #fff; border-radius:16px; padding:16px 24px; height:90px;
+      box-shadow:0 0 30px rgba(255,255,255,.8), 0 0 0 3px rgba(255,255,255,.8); margin-bottom:80px; }
     .contact-info{ margin:30px 0 0; font-size:.85rem; text-align:center; line-height:1.4; color:#ccc; }
 
     footer{
@@ -276,6 +275,10 @@
   <footer>Powered by SNYUZII.XYZ</footer>
 
   <script>
+    // Upewnij się, że strona startuje od góry (brak przywracania scrolla)
+    try { history.scrollRestoration = 'manual'; } catch(e){}
+    window.scrollTo(0, 0);
+
     document.addEventListener('DOMContentLoaded', () => {
       /* --- ScrollReveal --- */
       if (window.ScrollReveal) {
@@ -325,7 +328,7 @@
         setPlayIcon(false);
         setMuteIcon(false);
 
-        playBtn.addEventListener('click', async () => {
+        playBtn?.addEventListener('click', async () => {
           try {
             if (!isPlaying) { await audio.play(); isPlaying = true; }
             else { audio.pause(); isPlaying = false; }
@@ -333,7 +336,7 @@
           } catch (err) { console.warn('Problem z odtworzeniem:', err); }
         });
 
-        muteBtn.addEventListener('click', () => {
+        muteBtn?.addEventListener('click', () => {
           audio.muted = !audio.muted;
           setMuteIcon(audio.muted);
         });
