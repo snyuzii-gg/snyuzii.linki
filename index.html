@@ -54,15 +54,40 @@
   transition: transform .2s ease, background .2s ease, color .2s ease;
 }
 
-.player-btn:hover { transform: scale(1.06); background:#00ffff; color:#000; }
+.player-btn:hover {
+  transform: scale(1.06);
+  background: #00ffff;
+  color: #000;
+}
 
+/* przewijający się tytuł utworu */
 .player-track {
+  position: relative;
+  overflow: hidden;
+  width: 200px; /* szerokość pola tekstu */
+  height: 1.2em;
   font-size: .95rem;
   color: #ccc;
 }
 
+.player-track span {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 8s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
 /* proste ikonki w SVG dziedziczą kolor z buttona */
-.player-btn svg { width: 24px; height: 24px; }
+.player-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
 
     body {
       margin: 0;
@@ -410,7 +435,9 @@
     <img class="logo" src="https://i.imgur.com/HsYppSG.png" alt="Music logo">
     <div class="info">
       <h3>Odtwarzacz</h3>
-      <div class="player-track">Twój utwór – SNYUZII</div>
+      <div class="player-track">
+        <span>Twój utwór – SNYUZII</span>
+      </div>
     </div>
   </div>
 
