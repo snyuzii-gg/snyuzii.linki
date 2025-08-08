@@ -582,14 +582,15 @@
 
       // startowe ikonki
       setPlayIcon(true);
-      setMuteIcon(audio.muted);
+      setMuteIcon(true);
 
-      // autoplay od razu po wejściu
+      // autoplay z wyciszeniem (działa w każdej przeglądarce)
+      audio.muted = true;
       audio.play().then(() => {
         isPlaying = true;
         setPlayIcon(true);
       }).catch(err => {
-        console.warn('Autoplay zablokowany przez przeglądarkę:', err);
+        console.warn('Autoplay zablokowany:', err);
       });
 
       playBtn.addEventListener('click', async () => {
@@ -612,7 +613,7 @@
         setMuteIcon(audio.muted);
       });
 
-      // opcjonalnie: głośność startowa
+      // opcjonalnie: głośność startowa po odciszeniu
       // audio.volume = 0.7;
     } else {
       console.warn('Player: brak elementów #bgAudio / #playPause / #muteBtn');
