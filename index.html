@@ -336,6 +336,22 @@
       background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
       animation: scan 3s infinite;
     }
+.music-player {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.music-player audio {
+  width: 100%;
+  max-width: 400px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+  padding: 5px;
+}
+
   </style>
 </head>
 <body>
@@ -473,5 +489,11 @@
       }
     });
   </script>
+<div class="music-player">
+  <audio controls autoplay loop>
+    <source src="https://raw.githubusercontent.com/snyuzii-gg/snyuzii.linki/main/Skumaj%20-%20To%20nie%20ich%20teren%20prod.Hugepat%20x%20Zzzipper.mp3" type="audio/mpeg">
+    Twoja przeglądarka nie obsługuje odtwarzacza audio.
+  </audio>
+</div>
 </body>
 </html>
