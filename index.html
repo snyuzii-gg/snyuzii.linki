@@ -5,51 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SNYUZII — Bio</title>
   <meta name="description" content="Oficjalna strona SNYUZII – stream, social media, radyjko i partnerzy." />
-<meta property="og:image" content="https://i.imgur.com/eDYyA4G.png" />
-<meta property="og:image:width" content="1024" />
-<meta property="og:image:height" content="1024" />
-
+  <meta property="og:image" content="https://i.imgur.com/eDYyA4G.png" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="1024" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg-image: url('https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=2100&auto=format&fit=crop'); /* podmienisz w configu */
-      --accent: #7ecbff; /* jasny niebieski */
-      --accent-2: #4f87ff; /* głębszy niebieski */
-      --text: #eaf7ff;      
-      --muted: #a6b3c2;
-      --card: rgba(17,21,32,0.62);
-      --card-strong: rgba(10,12,20,0.8);
-      --glass: blur(10px) saturate(120%);
-      --radius: 18px;
-      --shadow-neon: 0 0 12px var(--accent), 0 0 32px color-mix(in srgb, var(--accent) 60%, transparent);
-      --glow-strong: 0 0 18px var(--accent), 0 0 48px var(--accent);
-      --maxw: 1150px;
+      --bg-image: url('https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=2100&auto=format&fit=crop');
+      --accent:#7ecbff; --accent-2:#4f87ff; --text:#eaf7ff; --muted:#a6b3c2;
+      --card:rgba(17,21,32,0.62); --card-strong:rgba(10,12,20,0.8);
+      --glass: blur(10px) saturate(120%); --radius:18px; --maxw:1150px;
+      --shadow-neon:0 0 12px var(--accent), 0 0 32px color-mix(in srgb, var(--accent) 60%, transparent);
+      --glow-strong:0 0 18px var(--accent), 0 0 48px var(--accent);
+      --live-red:#ff3b3b; --offline:#7a8594;
     }
     *{box-sizing:border-box}
     html,body{margin:0;height:100%}
-    body{
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: #0b0f17 fixed center/cover no-repeat var(--bg-image);
-      overflow-x:hidden;
-    }
-    body::before{content:""; position:fixed; inset:0; pointer-events:none; 
-      background: radial-gradient(1200px 800px at 70% 10%, rgba(255,255,255,0.06), transparent 60%),
-                  radial-gradient(900px 700px at 10% 30%, rgba(72,150,255,0.08), transparent 60%),
-                  linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.8));
-      z-index:-1;
-    }
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);
+      background:#0b0f17 fixed center/cover no-repeat var(--bg-image);overflow-x:hidden;}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;
+      background:radial-gradient(1200px 800px at 70% 10%,rgba(255,255,255,.06),transparent 60%),
+                 radial-gradient(900px 700px at 10% 30%,rgba(72,150,255,.08),transparent 60%),
+                 linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.8));z-index:-1}
     a{color:inherit;text-decoration:none}
 
-    /* TOP NEWS TICKER */
-    .ticker{
-      position:sticky; top:0; z-index:50; backdrop-filter: var(--glass);
-      background: linear-gradient(90deg, rgba(12,18,30,0.95), rgba(12,18,30,0.75));
-      border-bottom: 1px solid rgba(126, 203, 255, 0.35);
-      box-shadow: 0 1px 0 rgba(126,203,255,.25);
-      height:48px; display:flex; align-items:center; gap:14px;
-    }
-    .ticker .label{margin-left:12px; font-weight:900; letter-spacing:.14em; font-size:12px; color:#fff; text-shadow: 0 0 12px var(--accent)}
+    /* TICKER + LIVE badge */
+    .ticker{position:sticky;top:0;z-index:50;backdrop-filter:var(--glass);
+      background:linear-gradient(90deg,rgba(12,18,30,.95),rgba(12,18,30,.75));
+      border-bottom:1px solid rgba(126,203,255,.35);box-shadow:0 1px 0 rgba(126,203,255,.25);
+      min-height:56px;display:flex;align-items:center;gap:14px}
+    .ticker .label{margin-left:12px; font-weight:900; letter-spacing:.14em; font-size:12px; color:#fff; text-shadow: 0 0 12px var(--accent);
+      display:flex; flex-direction:column; align-items:flex-start; line-height:1}
+    .liveBadge{margin-top:4px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px}
+    .liveBadge .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+    .liveBadge.on{color:var(--live-red)}
+    .liveBadge.on .dot{background:var(--live-red); box-shadow:0 0 10px var(--live-red),0 0 20px var(--live-red); animation:blink 1s infinite}
+    .liveBadge.off{color:var(--offline)}
+    .liveBadge.off .dot{background:var(--offline)}
+    @keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+
     .ticker .mask{overflow:hidden; flex:1}
     .ticker .track{display:flex; width:max-content; animation: marquee2 28s linear infinite}
     .ticker .row{display:flex; gap:26px; padding:0 12px}
@@ -81,7 +75,7 @@
 
     /* STREAM + CHAT */
     .grid{display:grid; gap:24px}
-    @media(min-width: 980px){ .grid.stream{grid-template-columns: 1.4fr .9fr} }
+    @media(min-width: 980px){ .grid.stream{grid-template-columns: 1.6fr 1fr} } /* powiększony player */
     .frame{aspect-ratio:16/9; width:100%; border-radius:calc(var(--radius) - 2px); border:2px solid rgba(168,255,255,.45); box-shadow: var(--shadow-neon); overflow:hidden; background: #000}
 
     /* RADIO */
@@ -113,20 +107,24 @@
     .powered::after{content:""; position:absolute; inset:0; background: linear-gradient(90deg, transparent, rgba(126,203,255,.35), transparent); transform: translateX(-100%); animation: scan 4.5s infinite}
     @keyframes scan{ 0%{ transform: translateX(-100%)} 60%{ transform: translateX(100%)} 100%{ transform: translateX(100%)} }
 
-    /* SPLASH SCREEN */
+    /* SPLASH + TOAST + REVEAL */
     .splash{position: fixed; inset:0; display:grid; place-items:center; background: radial-gradient(800px 600px at 50% 20%, rgba(126,203,255,.08), transparent 60%), #06080f; color: #eaffff; z-index:100}
     .splash .inner{ text-align:center}
     .enter{ margin-top:20px; padding:14px 22px; border-radius:999px; border:2px solid rgba(126,203,255,.5); background: transparent; color:#eaffff; font-weight:700; letter-spacing:.06em; cursor:pointer; box-shadow: var(--shadow-neon)}
     .enter:hover{ filter: drop-shadow(0 0 16px rgba(126,203,255,.8))}
     .no-scroll{overflow:hidden;height:100%}
 
-    /* NOTIFICATION */
     .toast{position: fixed; bottom:22px; right:22px; background: var(--card-strong); color:#eaf8ff; border:1px solid rgba(168,255,255,.3); padding:12px 14px; border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,.4); display:flex; gap:10px; align-items:flex-start; max-width: 360px; z-index:40}
     .toast button{margin-left:auto; background:transparent; border:none; color:var(--muted); cursor:pointer; font-weight:700}
 
-    /* REVEAL on scroll */
     .reveal{opacity:0; transform: translateY(16px); transition: .6s ease}
     .reveal.visible{opacity:1; transform:none}
+
+    /* DEVTOOLS overlay */
+    #devtoolsOverlay{position:fixed; inset:0; background:rgba(0,0,0,.9); color:#fff; display:none; align-items:center; justify-content:center; text-align:center; padding:24px; z-index:9999}
+    #devtoolsOverlay .box{max-width:560px; background:rgba(20,24,36,.85); border:1px solid rgba(126,203,255,.35); border-radius:18px; padding:22px; box-shadow:0 0 24px rgba(126,203,255,.25)}
+    #devtoolsOverlay h2{margin:0 0 8px; font-family:Orbitron,Inter,sans-serif; letter-spacing:.06em}
+    #devtoolsOverlay p{margin:0; color:#cde7ff}
   </style>
 </head>
 <body class="no-scroll">
@@ -143,7 +141,10 @@
 
   <!-- TICKER -->
   <div class="ticker">
-    <div class="label">NEWS</div>
+    <div class="label">
+      <div>NEWS</div>
+      <div id="liveBadge" class="liveBadge off"><span class="dot"></span> OFFLINE</div>
+    </div>
     <div class="mask">
       <div id="tickerTrack" class="track">
         <div id="tickerFeedA" class="row" aria-hidden="false"></div>
@@ -167,18 +168,17 @@
     <section class="section grid stream reveal">
       <div class="card">
         <div class="frame">
-          <iframe id="twitch-embed" src="https://player.twitch.tv/?channel=snieznybot&parent=snyuzii.xyz&parent=snyuzii.xyz&muted=true" allowfullscreen frameborder="0" width="100%" height="100%"></iframe>
+          <iframe id="twitch-embed" allowfullscreen frameborder="0" width="100%" height="100%"></iframe>
         </div>
       </div>
       <div class="card">
         <div class="frame" style="aspect-ratio:auto; height:100%">
-          <iframe src="https://www.twitch.tv/embed/snieznybot/chat?parent=snyuzii.xyz&parent=snyuzii.xyz&darkpopout" frameborder="0" width="100%" height="100%"></iframe>
+          <iframe id="twitch-chat" frameborder="0" width="100%" height="100%"></iframe>
         </div>
       </div>
     </section>
 
     <h2 class="zone reveal">RADYJKO</h2>
-    <!-- RADIO -->
     <section class="section card reveal">
       <div class="radio">
         <div class="cover"><img id="radioCover" src="https://i.imgur.com/IGjyCAy.png" alt="okładka" style="width:100%;height:100%"></div>
@@ -192,19 +192,17 @@
           </button>
           <button class="btn" id="mute" aria-label="Wycisz">
             <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2a4.5 4.5 0 0 1-2.1 3.8l1.4 1.4A6.5 6.5 0 0 0 19.5 12 6.5 6.5 0 0 0 15.8 6.8l-1.4 1.4A4.5 4.5 0 0 1 16.5 12z"/></svg>
-          </button>
+        </button>
         </div>
         <audio id="audio" preload="none"></audio>
       </div>
     </section>
 
     <h2 class="zone reveal">STREFA PARTNERÓW</h2>
-    <!-- PARTNERS -->
     <section class="section">
       <div class="partners" id="partners"></div>
     </section>
 
-    <!-- CONTACT & FOOTER -->
     <section class="section card reveal" style="padding:16px 18px">
       <div class="contact">
         <div style="font-weight:700; color:#eaf8ff; letter-spacing:.12em; margin-bottom:6px">kontakt</div>
@@ -224,8 +222,16 @@
     <button id="closeToast">×</button>
   </div>
 
+  <!-- DEVTOOLS OVERLAY -->
+  <div id="devtoolsOverlay">
+    <div class="box">
+      <h2>Narzędzia deweloperskie wykryte</h2>
+      <p>Proszę zamknąć DevTools. Nastąpi przekierowanie…</p>
+    </div>
+  </div>
+
   <script>
-    // ---------- CONFIG (tu wszystko ustawiasz) ----------
+    // ---------- CONFIG ----------
     const CONFIG = {
       backgroundImage: 'https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=2100&auto=format&fit=crop',
       logoText: 'SNYUZII',
@@ -243,12 +249,7 @@
         {label:'Discord', icon:'https://simpleicons.org/icons/discord.svg', url:'https://discord.gg/ZPZY6h6DP3'},
         {label:'Instagram', icon:'https://simpleicons.org/icons/instagram.svg', url:'https://instagram.com/snieznyyyy'}
       ],
-      radio: {
-        streamUrl: 'https://stream.nightride.fm/nightride.mp3', // podmień na swoje źródło
-        cover: 'https://i.imgur.com/IGjyCAy.png',
-        title: 'Radyjko',
-        info: 'Nazwa zostanie dodana później tera testy'
-      },
+      radio: { streamUrl:'https://stream.nightride.fm/nightride.mp3', cover:'https://i.imgur.com/IGjyCAy.png', title:'Radyjko', info:'Nazwa zostanie dodana później tera testy' },
       partners: [
         {logo:'https://i.imgur.com/EG6PCi3.png', name:'RAPIDSKINS', desc:'Sklep ze skinami CS. sprzedaż i szybkie wypłaty.', cta:'Sprawdź', url:'https://rapidskins.com'},
         {logo:'https://i.imgur.com/hOQRvOK.png', name:'CSGOFAST', desc:'Ruletka, upgrader, coinflip i inne tryby.', cta:'Zagraj', url:'https://csgofast.com'},
@@ -256,41 +257,82 @@
         {logo:'https://i.imgur.com/eDYyA4G.png', name:'SNYUZII TOOLS', desc:'Małe narzędzia i boty dla streamerów.', cta:'Zobacz', url:'https://snyuzii.xyz'},
         {logo:'https://i.imgur.com/eDYyA4G.png', name:'Partner 5', desc:'Dodam se pozniej.', cta:'Wejdź', url:'#'}
       ],
-      contact:{
-        discord: 'snyuzii.xyz',
-        email: 'sniezny@snyuzii.xyz'
-      },
-      showWelcomeToast: true,
-      sparkleCount: 22,
-      twitchParents: ['snyuzii.xyz','snyuzii.xyz']
+      contact:{ discord:'snyuzii.xyz', email:'sniezny@snyuzii.xyz' },
+      showWelcomeToast:true, sparkleCount:22,
+      twitchParents:['snyuzii.xyz','www.snyuzii.xyz'],
+      twitchAPI:{ clientId:'m1grey0td46f6wyoaj4g4je9c9q1t1', clientSecret:'gpsjz5b4negjfwo8r9mvf6pwm7etjz', channelLogin:'snieznybot', refreshMs:60000 },
+      devtools:{ redirect:'https://www.youtube.com/shorts/cFwdpU4tCQ0?feature=share' }
     };
 
-    // ---------- INIT UI z configu ----------
+    // ---------- INIT UI ----------
     document.documentElement.style.setProperty('--bg-image', `url('${CONFIG.backgroundImage}')`);
     const mainLogo = document.getElementById('mainLogo');
     const logoText = document.getElementById('logoText');
     mainLogo.textContent = CONFIG.logoText; logoText.textContent = CONFIG.logoText;
 
-    // ticker (dwa identyczne rzędy, płynny loop)
+    // ticker
     const feedA = document.getElementById('tickerFeedA');
     const feedB = document.getElementById('tickerFeedB');
-    function buildTicker(items){
-      const html = items.map(t => `<div class=\"item\">${t}</div>`).join('');
-      feedA.innerHTML = html; feedB.innerHTML = html;
-    }
-    buildTicker(CONFIG.news);
+    const tickerHtml = CONFIG.news.map(t=>`<div class="item">${t}</div>`).join('');
+    feedA.innerHTML = tickerHtml; feedB.innerHTML = tickerHtml;
 
     // socials
-    const socials = document.getElementById('socials');
-    socials.innerHTML = CONFIG.socials.map(s=>`
+    document.getElementById('socials').innerHTML = CONFIG.socials.map(s=>`
       <a class="chip" href="${s.url}" target="_blank" rel="noopener">
-        <img src="${s.icon}" alt="${s.label}"/>
-        <span>${s.label}</span>
+        <img src="${s.icon}" alt="${s.label}"/><span>${s.label}</span>
       </a>`).join('');
 
-    // twitch parents (gdy wrzucisz na domenę, dodaj ją do tablicy poniżej)
-    const twitchPlayer = document.getElementById('twitch-embed');
-    twitchPlayer.src = `https://player.twitch.tv/?channel=snieznybot&parent=snyuzii.xyz${CONFIG.twitchParents.join('&parent=')}&muted=true`;
+    // Twitch player + chat (dynamic parent=)
+    const parentsParam = CONFIG.twitchParents.join('&parent=');
+    document.getElementById('twitch-embed').src =
+      `https://player.twitch.tv/?channel=${CONFIG.twitchAPI.channelLogin}&parent=${parentsParam}&muted=true`;
+    document.getElementById('twitch-chat').src =
+      `https://www.twitch.tv/embed/${CONFIG.twitchAPI.channelLogin}/chat?parent=${parentsParam}&darkpopout`;
+
+    // LIVE badge via Twitch API
+    let _twitchToken = '';
+    async function getToken(){
+      if(_twitchToken) return _twitchToken;
+      try{
+        const res = await fetch('https://id.twitch.tv/oauth2/token', {
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body: new URLSearchParams({
+            client_id: CONFIG.twitchAPI.clientId,
+            client_secret: CONFIG.twitchAPI.clientSecret,
+            grant_type: 'client_credentials'
+          })
+        });
+        const data = await res.json();
+        _twitchToken = data.access_token || '';
+        return _twitchToken;
+      }catch(e){ console.warn('token error', e); return ''; }
+    }
+    async function checkLive(){
+      const badge = document.getElementById('liveBadge');
+      try{
+        const token = await getToken();
+        if(!token){ badge.className='liveBadge off'; badge.innerHTML='<span class="dot"></span> OFFLINE'; return; }
+        const res = await fetch(`https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(CONFIG.twitchAPI.channelLogin)}`,{
+          headers:{ 'Client-ID': CONFIG.twitchAPI.clientId, 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const isLive = Array.isArray(data.data) && data.data.length > 0 && data.data[0].type === 'live';
+        if(isLive){
+          badge.className='liveBadge on';
+          badge.innerHTML='<span class="dot"></span> LIVE';
+        }else{
+          badge.className='liveBadge off';
+          badge.innerHTML='<span class="dot"></span> OFFLINE';
+        }
+      }catch(e){
+        console.warn('live check error', e);
+        badge.className='liveBadge off';
+        badge.innerHTML='<span class="dot"></span> OFFLINE';
+      }
+    }
+    checkLive();
+    setInterval(checkLive, CONFIG.twitchAPI.refreshMs);
 
     // radio
     const audio = document.getElementById('audio');
@@ -300,8 +342,7 @@
     document.getElementById('radioCover').src = CONFIG.radio.cover;
 
     // partnerzy
-    const partners = document.getElementById('partners');
-    partners.innerHTML = CONFIG.partners.map(p=>`
+    document.getElementById('partners').innerHTML = CONFIG.partners.map(p=>`
       <a class="card partner reveal" href="${p.url}" target="_blank" rel="noopener">
         <img src="${p.logo}" alt="${p.name}"/>
         <div class="meta">
@@ -328,14 +369,13 @@
       sparkWrap.appendChild(s);
     }
 
-    // splash -> wymusza klik na wejście i dopiero wtedy odtwarza audio
+    // splash
     const splash = document.getElementById('splash');
-    const enterBtn = document.getElementById('enterBtn');
-    enterBtn.addEventListener('click', async () => {
+    document.getElementById('enterBtn').addEventListener('click', async () => {
       splash.style.opacity = '0';
       setTimeout(()=> splash.remove(), 320);
       document.body.classList.remove('no-scroll');
-      try{ await audio.play(); }catch(e){ console.warn('Autoplay blocked until user interacts again.'); }
+      try{ await audio.play(); }catch(e){}
     });
 
     // radio controls
@@ -343,7 +383,7 @@
     const muteBtn = document.getElementById('mute');
     const playIcon = document.getElementById('playIcon');
     let playing = false;
-    function setPlayIcon(){ playIcon.setAttribute('d', playing ? 'M6 5h4v14H6zm8 0h4v14h-4z' : 'M8 5v14l11-7z'); }
+    const setPlayIcon=()=>playIcon.setAttribute('d', playing ? 'M6 5h4v14H6zm8 0h4v14h-4z' : 'M8 5v14l11-7z');
     playBtn.addEventListener('click', async()=>{
       if(!playing){ await audio.play(); playing = true; } else { audio.pause(); playing = false; }
       setPlayIcon();
@@ -352,19 +392,61 @@
     audio.addEventListener('play', ()=>{ playing=true; setPlayIcon(); });
     audio.addEventListener('pause', ()=>{ playing=false; setPlayIcon(); });
 
-    // scroll reveal
+    // reveal
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
     },{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
 
-    // Toast (raz na sesję)
+    // toast
     const toast = document.getElementById('toast');
     const closeToast = document.getElementById('closeToast');
     if(CONFIG.showWelcomeToast && !sessionStorage.getItem('toastSeen')){
       toast.hidden = false;
       closeToast.onclick = () => { toast.remove(); sessionStorage.setItem('toastSeen','1'); };
     }
+
+    // ---------- DEVTOOLS "zabezpieczenia" ----------
+    const REDIRECT_URL = CONFIG.devtools.redirect;
+    const overlay = document.getElementById('devtoolsOverlay');
+
+    function showDevtoolsOverlayAndRedirect(){
+      if(overlay.style.display === 'flex') return;
+      overlay.style.display = 'flex';
+      setTimeout(()=>{ window.location.href = REDIRECT_URL; }, 2000);
+    }
+
+    // 1) Blokada skrótów
+    document.addEventListener('keydown', (e)=>{
+      // F12
+      if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
+      // Ctrl+Shift+I/J/C
+      if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
+      // Ctrl+U (view-source)
+      if (e.ctrlKey && e.key.toUpperCase() === 'U') { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
+    }, true);
+
+    // 2) Blokada menu kontekstowego
+    document.addEventListener('contextmenu', (e)=>{ e.preventDefault(); });
+
+    // 3) Detekcja otwartych devtools (rozmiar okna)
+    function detectBySize(){
+      const threshold = 160; // typowy rozmiar panelu devtools
+      const w = window.outerWidth - window.innerWidth > threshold;
+      const h = window.outerHeight - window.innerHeight > threshold;
+      if (w || h) showDevtoolsOverlayAndRedirect();
+    }
+    window.addEventListener('resize', detectBySize);
+    setInterval(detectBySize, 1000);
+
+    // 4) Detekcja przez "debugger timing"
+    function detectByDebugger(){
+      const t0 = performance.now();
+      debugger;
+      const delta = performance.now() - t0;
+      if (delta > 100) showDevtoolsOverlayAndRedirect();
+    }
+    setInterval(detectByDebugger, 1500);
   </script>
 </body>
 </html>
