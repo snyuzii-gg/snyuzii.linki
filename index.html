@@ -21,8 +21,12 @@
     }
     *{box-sizing:border-box}
     html,body{margin:0;height:100%}
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);
-      background:#0b0f17 fixed center/cover no-repeat var(--bg-image);overflow-x:hidden;}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);
+      background:#0b0f17 fixed center/cover no-repeat var(--bg-image);
+      overflow-x:hidden;
+      transition: background-position .15s ease-out; /* dla efektu parallax */
+    }
     body::before{content:"";position:fixed;inset:0;pointer-events:none;
       background:radial-gradient(1200px 800px at 70% 10%,rgba(255,255,255,.06),transparent 60%),
                  radial-gradient(900px 700px at 10% 30%,rgba(72,150,255,.08),transparent 60%),
@@ -220,7 +224,7 @@
 
         <!-- Jeden przycisk DONATE + mały opis form płatności -->
         <div class="mini-donate">
-          <a href="https://tipo.live/p/sniezny" target="_blank" rel="noopener" class="mini-btn">Donate TIPPLY</a>
+          <a href="https://tipply.pl/@Sniezny" target="_blank" rel="noopener" class="mini-btn">Donate TIPPLY</a>
           <div class="pay-note">
             Formy płatności: BLIK, Paysafecard, CashBill Przelew, PayPal, Revolut, BLIK Płacę Później, Visa/Mastercard, SMS, SMS Full, SMS Plus.
           </div>
@@ -542,6 +546,30 @@
         const el = e.target.closest('.chip, .button, .btn, .enter, .mini-btn');
         if(el) niceClick();
       }, true);
+    })();
+
+    // --- Parallax tła (1–5% zakresu, wyłączony na dotyku) ---
+    (function(){
+      const body = document.body;
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if(isTouch) return; // nie na telefonach/tabletach
+
+      let rafId = null;
+      let targetX = 50, targetY = 50;
+
+      function onMove(e){
+        // zakres ok. +/- 5% od środka
+        const x = (e.clientX / window.innerWidth - 0.5) * 30; // 10 => +/-5%
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        targetX = 50 + x;
+        targetY = 50 + y;
+        if(!rafId) rafId = requestAnimationFrame(apply);
+      }
+      function apply(){
+        rafId = null;
+        body.style.backgroundPosition = `${targetX}% ${targetY}%`;
+      }
+      document.addEventListener('mousemove', onMove);
     })();
   </script>
 </body>
