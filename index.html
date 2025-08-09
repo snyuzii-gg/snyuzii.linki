@@ -65,17 +65,16 @@
     .chip:hover{transform:translateY(-2px) scale(1.06); box-shadow: var(--shadow-neon)}
     .chip img{width:18px; height:18px; object-fit:contain}
 
-    /* CARDS */
-    .card{background:var(--card); border:1px solid rgba(168,255,255,.18); border-radius:var(--radius); box-shadow: 0 12px 40px rgba(0,0,0,.35); backdrop-filter: var(--glass)}
+    /* CARDS / GRID */
+    .card{background:var(--card); border:1px solid rgba(168,255,255,.18); border-radius:var(--radius); box-shadow:0 12px 40px rgba(0,0,0,.35); backdrop-filter:var(--glass)}
     .section{margin:46px 0}
 
-    /* STREFY / NAGŁÓWKI */
     .zone{display:inline-block; margin:34px 0 10px; text-align:left; font-size:12px; font-weight:900; letter-spacing:.22em; color:#eaf6ff; padding:6px 10px; border:1px solid rgba(126,203,255,.35); border-radius:999px; background: linear-gradient(180deg, rgba(10,16,26,.85), rgba(10,16,26,.55)); box-shadow: 0 0 14px rgba(126,203,255,.2)}
     .zone::before{content:""; display:inline-block; width:10px; height:10px; margin-right:8px; border-radius:3px; background: var(--accent); box-shadow:0 0 12px var(--accent)}
 
     /* STREAM + CHAT */
     .grid{display:grid; gap:24px}
-    @media(min-width: 980px){ .grid.stream{grid-template-columns: 1.6fr 1fr} } /* powiększony player */
+    @media(min-width: 980px){ .grid.stream{grid-template-columns: 1.6fr 1fr} }
     .frame{aspect-ratio:16/9; width:100%; border-radius:calc(var(--radius) - 2px); border:2px solid rgba(168,255,255,.45); box-shadow: var(--shadow-neon); overflow:hidden; background: #000}
 
     /* RADIO */
@@ -114,7 +113,7 @@
     .enter:hover{ filter: drop-shadow(0 0 16px rgba(126,203,255,.8))}
     .no-scroll{overflow:hidden;height:100%}
 
-    .toast{position: fixed; bottom:22px; right:22px; background: var(--card-strong); color:#eaf8ff; border:1px solid rgba(168,255,255,.3); padding:12px 14px; border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,.4); display:flex; gap:10px; align-items:flex-start; max-width: 360px; z-index:40}
+    .toast{position: fixed; bottom:22px; right:22px; background: var(--card-strong); color:var(--text); border:1px solid rgba(168,255,255,.3); padding:12px 14px; border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,.4); display:flex; gap:10px; align-items:flex-start; max-width: 360px; z-index:40}
     .toast button{margin-left:auto; background:transparent; border:none; color:var(--muted); cursor:pointer; font-weight:700}
 
     .reveal{opacity:0; transform: translateY(16px); transition: .6s ease}
@@ -192,7 +191,7 @@
           </button>
           <button class="btn" id="mute" aria-label="Wycisz">
             <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2a4.5 4.5 0 0 1-2.1 3.8l1.4 1.4A6.5 6.5 0 0 0 19.5 12 6.5 6.5 0 0 0 15.8 6.8l-1.4 1.4A4.5 4.5 0 0 1 16.5 12z"/></svg>
-        </button>
+          </button>
         </div>
         <audio id="audio" preload="none"></audio>
       </div>
@@ -233,7 +232,7 @@
   <script>
     // ---------- CONFIG ----------
     const CONFIG = {
-      backgroundImage: 'https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=2100&auto=format&fit=crop',
+      backgroundImage: 'https://i.imgur.com/OCQxSGy.png',
       logoText: 'SNYUZII',
       news: [
         'Nowy stream już dziś o 20:00!',
@@ -270,7 +269,7 @@
     const logoText = document.getElementById('logoText');
     mainLogo.textContent = CONFIG.logoText; logoText.textContent = CONFIG.logoText;
 
-    // ticker
+    // ticker news
     const feedA = document.getElementById('tickerFeedA');
     const feedB = document.getElementById('tickerFeedB');
     const tickerHtml = CONFIG.news.map(t=>`<div class="item">${t}</div>`).join('');
@@ -318,13 +317,8 @@
         });
         const data = await res.json();
         const isLive = Array.isArray(data.data) && data.data.length > 0 && data.data[0].type === 'live';
-        if(isLive){
-          badge.className='liveBadge on';
-          badge.innerHTML='<span class="dot"></span> LIVE';
-        }else{
-          badge.className='liveBadge off';
-          badge.innerHTML='<span class="dot"></span> OFFLINE';
-        }
+        badge.className = isLive ? 'liveBadge on' : 'liveBadge off';
+        badge.innerHTML = `<span class="dot"></span> ${isLive ? 'LIVE' : 'OFFLINE'}`;
       }catch(e){
         console.warn('live check error', e);
         badge.className='liveBadge off';
@@ -416,22 +410,16 @@
       setTimeout(()=>{ window.location.href = REDIRECT_URL; }, 2000);
     }
 
-    // 1) Blokada skrótów
     document.addEventListener('keydown', (e)=>{
-      // F12
       if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
-      // Ctrl+Shift+I/J/C
       if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
-      // Ctrl+U (view-source)
       if (e.ctrlKey && e.key.toUpperCase() === 'U') { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
     }, true);
 
-    // 2) Blokada menu kontekstowego
     document.addEventListener('contextmenu', (e)=>{ e.preventDefault(); });
 
-    // 3) Detekcja otwartych devtools (rozmiar okna)
     function detectBySize(){
-      const threshold = 160; // typowy rozmiar panelu devtools
+      const threshold = 160;
       const w = window.outerWidth - window.innerWidth > threshold;
       const h = window.outerHeight - window.innerHeight > threshold;
       if (w || h) showDevtoolsOverlayAndRedirect();
@@ -439,7 +427,6 @@
     window.addEventListener('resize', detectBySize);
     setInterval(detectBySize, 1000);
 
-    // 4) Detekcja przez "debugger timing"
     function detectByDebugger(){
       const t0 = performance.now();
       debugger;
@@ -447,6 +434,44 @@
       if (delta > 100) showDevtoolsOverlayAndRedirect();
     }
     setInterval(detectByDebugger, 1500);
+
+    // --- SFX: "satysfakcjonujący puk" (miękki, krótki, bez plików) ---
+    (function(){
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      let ctx;
+      function niceClick(){
+        ctx = ctx || new AudioCtx();
+        const now = ctx.currentTime;
+
+        // Miękki niski "pop" (króciutki bas, bez brzęczenia)
+        const low = ctx.createOscillator();
+        const gLow = ctx.createGain();
+        low.type = 'sine';
+        low.frequency.setValueAtTime(200, now);                  // ~puk
+        gLow.gain.setValueAtTime(0.22, now);
+        gLow.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+        low.connect(gLow).connect(ctx.destination);
+        low.start(now);
+        low.stop(now + 0.055);
+
+        // Subtelny wysoki "tik" dla krawędzi, bardzo cichy i krótki
+        const high = ctx.createOscillator();
+        const gHigh = ctx.createGain();
+        high.type = 'square';
+        high.frequency.setValueAtTime(1200, now);
+        gHigh.gain.setValueAtTime(0.06, now);
+        gHigh.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+        high.connect(gHigh).connect(ctx.destination);
+        high.start(now);
+        high.stop(now + 0.035);
+      }
+
+      // Odtwarzaj klik przy kliknięciu w .chip, .button, .btn, .enter
+      document.addEventListener('click', (e)=>{
+        const el = e.target.closest('.chip, .button, .btn, .enter');
+        if(el) niceClick();
+      }, true);
+    })();
   </script>
 </body>
 </html>
