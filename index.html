@@ -74,7 +74,7 @@
 
     /* STREAM + CHAT */
     .grid{display:grid; gap:24px}
-    @media(min-width: 980px){ .grid.stream{grid-template-columns: 1.6fr 1fr} }
+    @media(min-width: 980px){ .grid.stream{grid-template-columns: 1.6fr 1fr} } /* powiększony player */
     .frame{aspect-ratio:16/9; width:100%; border-radius:calc(var(--radius) - 2px); border:2px solid rgba(168,255,255,.45); box-shadow: var(--shadow-neon); overflow:hidden; background: #000}
 
     /* RADIO */
@@ -232,7 +232,7 @@
   <script>
     // ---------- CONFIG ----------
     const CONFIG = {
-      backgroundImage: 'https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=2100&auto=format&fit=crop',
+      backgroundImage: 'https://i.imgur.com/HpA5ORj.png',
       logoText: 'SNYUZII',
       news: [
         'Nowy stream już dziś o 20:00!',
@@ -317,8 +317,13 @@
         });
         const data = await res.json();
         const isLive = Array.isArray(data.data) && data.data.length > 0 && data.data[0].type === 'live';
-        badge.className = isLive ? 'liveBadge on' : 'liveBadge off';
-        badge.innerHTML = `<span class="dot"></span> ${isLive ? 'LIVE' : 'OFFLINE'}`;
+        if(isLive){
+          badge.className='liveBadge on';
+          badge.innerHTML='<span class="dot"></span> LIVE';
+        }else{
+          badge.className='liveBadge off';
+          badge.innerHTML='<span class="dot"></span> OFFLINE';
+        }
       }catch(e){
         console.warn('live check error', e);
         badge.className='liveBadge off';
@@ -435,41 +440,54 @@
     }
     setInterval(detectByDebugger, 1500);
 
-    // --- SFX: "satysfakcjonujący puk" (miękki, krótki, bez plików) ---
+    // --- SFX: realistyczny klik myszy (WebAudio, bez plików) ---
     (function(){
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       let ctx;
-      function niceClick(){
+
+      function mouseClickSfx(){
         ctx = ctx || new AudioCtx();
-        const now = ctx.currentTime;
+        const t = ctx.currentTime;
 
-        // Miękki niski "pop" (króciutki bas, bez brzęczenia)
-        const low = ctx.createOscillator();
-        const gLow = ctx.createGain();
-        low.type = 'sine';
-        low.frequency.setValueAtTime(200, now);                  // ~puk
-        gLow.gain.setValueAtTime(0.22, now);
-        gLow.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-        low.connect(gLow).connect(ctx.destination);
-        low.start(now);
-        low.stop(now + 0.055);
+        // 1) Krótki burst szumu (jak fizyczny przełącznik)
+        const durNoise = 0.02; // 20 ms
+        const noiseBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * durNoise), ctx.sampleRate);
+        const data = noiseBuf.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1);
 
-        // Subtelny wysoki "tik" dla krawędzi, bardzo cichy i krótki
-        const high = ctx.createOscillator();
-        const gHigh = ctx.createGain();
-        high.type = 'square';
-        high.frequency.setValueAtTime(1200, now);
-        gHigh.gain.setValueAtTime(0.06, now);
-        gHigh.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
-        high.connect(gHigh).connect(ctx.destination);
-        high.start(now);
-        high.stop(now + 0.035);
+        const noiseSrc = ctx.createBufferSource();
+        noiseSrc.buffer = noiseBuf;
+
+        const hp = ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 1800; // odcięcie niskich – zostaje "klik"
+
+        const gNoise = ctx.createGain();
+        gNoise.gain.setValueAtTime(0.25, t);
+        gNoise.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+
+        noiseSrc.connect(hp).connect(gNoise).connect(ctx.destination);
+        noiseSrc.start(t);
+        noiseSrc.stop(t + 0.06);
+
+        // 2) Delikatny "tick" dla ataku (krótki kwadrat)
+        const osc = ctx.createOscillator();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(3000, t);
+
+        const gOsc = ctx.createGain();
+        gOsc.gain.setValueAtTime(0.05, t);
+        gOsc.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
+
+        osc.connect(gOsc).connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.03);
       }
 
-      // Odtwarzaj klik przy kliknięciu w .chip, .button, .btn, .enter
+      // Graj klik przy kliknięciu w .chip, .button, .btn, .enter
       document.addEventListener('click', (e)=>{
         const el = e.target.closest('.chip, .button, .btn, .enter');
-        if(el) niceClick();
+        if(el) mouseClickSfx();
       }, true);
     })();
   </script>
