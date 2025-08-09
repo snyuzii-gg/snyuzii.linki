@@ -31,7 +31,7 @@
 
     /* TICKER + LIVE badge */
     .ticker{position:sticky;top:0;z-index:50;backdrop-filter:var(--glass);
-      background:linear-gradient(90deg,rgba(12,18,30,.95),rgba(12,18,30,.75));
+      :linear-gradient(90deg,rgba(12,18,30,.95),rgba(12,18,30,.75));
       border-bottom:1px solid rgba(126,203,255,.35);box-shadow:0 1px 0 rgba(126,203,255,.25);
       min-height:56px;display:flex;align-items:center;gap:14px}
     .ticker .label{margin-left:12px; font-weight:900; letter-spacing:.14em; font-size:12px; color:#fff; text-shadow: 0 0 12px var(--accent);
@@ -39,7 +39,7 @@
     .liveBadge{margin-top:4px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px}
     .liveBadge .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
     .liveBadge.on{color:var(--live-red)}
-    .liveBadge.on .dot{background:var(--live-red); box-shadow:0 0 10px var(--live-red),0 0 20px var(--live-red); animation:blink 1s infinite}
+    .liveBadge.on .dot{:var(--live-red); box-shadow:0 0 10px var(--live-red),0 0 20px var(--live-red); animation:blink 1s infinite}
     .liveBadge.off{color:var(--offline)}
     .liveBadge.off .dot{background:var(--offline)}
     @keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
@@ -246,7 +246,7 @@
   <script>
     // ---------- CONFIG ----------
     const CONFIG = {
-      backgroundImage: 'https://i.imgur.com/OCQxSGy.png',
+      backgroundImage: 'https://i.imgur.com/Nsrp54Q.jpeg',
       logoText: 'SNYUZII',
       news: [
         'Nowy stream już dziś o 20:00!',
