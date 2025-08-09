@@ -463,8 +463,8 @@
         hp.frequency.value = 1800; // odcięcie niskich – zostaje "klik"
 
         const gNoise = ctx.createGain();
-        gNoise.gain.setValueAtTime(0.18, t);
-        gNoise.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+        gNoise.gain.setValueAtTime(0.25, t);
+        gNoise.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
 
         noiseSrc.connect(hp).connect(gNoise).connect(ctx.destination);
         noiseSrc.start(t);
