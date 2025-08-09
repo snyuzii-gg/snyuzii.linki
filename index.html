@@ -31,7 +31,7 @@
 
     /* TICKER + LIVE badge */
     .ticker{position:sticky;top:0;z-index:50;backdrop-filter:var(--glass);
-      :linear-gradient(90deg,rgba(12,18,30,.95),rgba(12,18,30,.75));
+      background:linear-gradient(90deg,rgba(12,18,30,.95),rgba(12,18,30,.75));
       border-bottom:1px solid rgba(126,203,255,.35);box-shadow:0 1px 0 rgba(126,203,255,.25);
       min-height:56px;display:flex;align-items:center;gap:14px}
     .ticker .label{margin-left:12px; font-weight:900; letter-spacing:.14em; font-size:12px; color:#fff; text-shadow: 0 0 12px var(--accent);
@@ -39,7 +39,7 @@
     .liveBadge{margin-top:4px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px}
     .liveBadge .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
     .liveBadge.on{color:var(--live-red)}
-    .liveBadge.on .dot{:var(--live-red); box-shadow:0 0 10px var(--live-red),0 0 20px var(--live-red); animation:blink 1s infinite}
+    .liveBadge.on .dot{background:var(--live-red); box-shadow:0 0 10px var(--live-red),0 0 20px var(--live-red); animation:blink 1s infinite}
     .liveBadge.off{color:var(--offline)}
     .liveBadge.off .dot{background:var(--offline)}
     @keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
@@ -246,7 +246,7 @@
   <script>
     // ---------- CONFIG ----------
     const CONFIG = {
-      backgroundImage: 'https://i.imgur.com/Nsrp54Q.jpeg',
+      backgroundImage: 'https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=2100&auto=format&fit=crop',
       logoText: 'SNYUZII',
       news: [
         'Nowy stream już dziś o 20:00!',
@@ -414,9 +414,17 @@
       closeToast.onclick = () => { toast.remove(); sessionStorage.setItem('toastSeen','1'); };
     }
 
-    // ---------- DEVTOOLS "zabezpieczenia" ----------
+    // ---------- DEVTOOLS "zabezpieczenia" (wyłączone na mobile, żeby nie było false-positive)
     const REDIRECT_URL = CONFIG.devtools.redirect;
     const overlay = document.getElementById('devtoolsOverlay');
+
+    const isMobile = (() => {
+      // Szybka, bezpieczna heurystyka: userAgent + coarse pointer + wąskie okno
+      const ua = navigator.userAgent || navigator.vendor || window.opera || "";
+      const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const small = Math.min(window.innerWidth, window.innerHeight) < 900;
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(ua) || coarse || small;
+    })();
 
     function showDevtoolsOverlayAndRedirect(){
       if(overlay.style.display === 'flex') return;
@@ -424,30 +432,40 @@
       setTimeout(()=>{ window.location.href = REDIRECT_URL; }, 2000);
     }
 
+    // Skróty klawiaturowe – i tak mało kto użyje ich na telefonie
     document.addEventListener('keydown', (e)=>{
       if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
       if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
       if (e.ctrlKey && e.key.toUpperCase() === 'U') { e.preventDefault(); e.stopPropagation(); showDevtoolsOverlayAndRedirect(); }
     }, true);
 
+    // Wyłączamy wykrywanie prawokliku i rozmiaru/debuggera na mobile (tam często daje fałszywe alarmy)
     document.addEventListener('contextmenu', (e)=>{ e.preventDefault(); });
 
-    function detectBySize(){
-      const threshold = 160;
-      const w = window.outerWidth - window.innerWidth > threshold;
-      const h = window.outerHeight - window.innerHeight > threshold;
-      if (w || h) showDevtoolsOverlayAndRedirect();
-    }
-    window.addEventListener('resize', detectBySize);
-    setInterval(detectBySize, 1000);
+    if (!isMobile) {
+      // Rozmiar okna – podnieś threshold i zdebounce’uj
+      const SIZE_THRESHOLD = 220; // większa tolerancja, mniej false-positive
+      let sizeTimer;
+      function detectBySize(){
+        clearTimeout(sizeTimer);
+        sizeTimer = setTimeout(() => {
+          const w = (window.outerWidth - window.innerWidth) > SIZE_THRESHOLD;
+          const h = (window.outerHeight - window.innerHeight) > SIZE_THRESHOLD;
+          if (w || h) showDevtoolsOverlayAndRedirect();
+        }, 200);
+      }
+      window.addEventListener('resize', detectBySize);
+      setInterval(detectBySize, 1500);
 
-    function detectByDebugger(){
-      const t0 = performance.now();
-      debugger;
-      const delta = performance.now() - t0;
-      if (delta > 100) showDevtoolsOverlayAndRedirect();
+      // "debugger" timing – nie uruchamiać na wolnych/obciążonych urządzeniach
+      function detectByDebugger(){
+        const t0 = performance.now();
+        debugger; // jeżeli devtools otwarte, czas może znacznie wzrosnąć
+        const delta = performance.now() - t0;
+        if (delta > 250) showDevtoolsOverlayAndRedirect();
+      }
+      setInterval(detectByDebugger, 3000);
     }
-    setInterval(detectByDebugger, 1500);
 
     // --- SFX: "satysfakcjonujący puk" (miękki, krótki, bez plików) ---
     (function(){
