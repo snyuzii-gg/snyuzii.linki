@@ -479,7 +479,7 @@
   // ---------- DODANE: Pobieranie 5 najnowszych filmów z YouTube ----------
     async function loadLatestVideos() {
       const channelId = "UCIRBxx6u21W0TKBR6qsTexw"; // ID kanału @Snieznyy
-      const apiKey = "TUTAJ_WKLEJ_SWÓJ_KLUCZ_API";  // ← wklej tu swój klucz API
+      const apiKey = "AIzaSyC7I0jtbtQreodBBc-8onO6RYiuv2QEd-s";  // ← wklej tu swój klucz API
       try {
         const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=5`);
         const data = await res.json();
